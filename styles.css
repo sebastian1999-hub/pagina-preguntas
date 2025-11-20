@@ -53,15 +53,24 @@ h1 {
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 30px;
-    min-height: 80px;
-    display: none;
+    min-height: 0;
+    max-height: 0;
+    display: flex;
     align-items: center;
     justify-content: center;
     border: 2px solid #2196f3;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.4s ease-in-out;
+    transform: translateY(-10px);
 }
 
 .answer-box.show {
-    display: flex;
+    min-height: 80px;
+    max-height: 200px;
+    opacity: 1;
+    transform: translateY(0);
+    padding: 20px;
 }
 
 #answer {
