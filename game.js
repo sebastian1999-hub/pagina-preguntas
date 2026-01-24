@@ -162,12 +162,12 @@ function flipCard(index, cardEl) {
 
 function updateGameInfo() {
     const remaining = gameState.totalCards - gameState.flippedCards;
-    const dangerFlipped = gameState.cards.filter(c => c.type === 'danger' && c.flipped).length;
-    const safeFlipped = gameState.cards.filter(c => c.type === 'safe' && c.flipped).length;
+    const dangerRemaining = gameState.cards.filter(c => c.type === 'danger' && !c.flipped).length;
+    const safeRemaining = gameState.cards.filter(c => c.type === 'safe' && !c.flipped).length;
     
     remainingCardsEl.textContent = remaining;
-    dangerCountEl.textContent = dangerFlipped;
-    safeCountEl.textContent = safeFlipped;
+    dangerCountEl.textContent = dangerRemaining;
+    safeCountEl.textContent = safeRemaining;
 }
 
 function gameOver(won) {
