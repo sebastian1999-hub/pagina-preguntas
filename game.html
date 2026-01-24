@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Cartas - Chupito Gratuito</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="game.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Preguntas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="game.html" class="nav-link active">Juego de Cartas</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="game-container">
+        <h1 class="game-title">&#127920; Juego de Cartas de la Suerte &#127920;</h1>
+        
+        <!-- Panel de Configuración -->
+        <div id="setupPanel" class="setup-panel">
+            <div class="config-group">
+                <label for="gridSize">Tamaño de la Cuadrícula:</label>
+                <div class="button-group">
+                    <button class="size-btn active" data-size="3">3x3</button>
+                    <button class="size-btn" data-size="4">4x4</button>
+                    <button class="size-btn" data-size="5">5x5</button>
+                    <button class="size-btn" data-size="6">6x6</button>
+                </div>
+            </div>
+            
+            <div class="config-group">
+                <label for="dangerCards">Número de Cartas Rojas (Muerte):</label>
+                <div class="danger-input-group">
+                    <input type="number" id="dangerCards" min="1" max="35" value="5">
+                    <span id="maxCards" class="max-cards-info">Máximo: 8</span>
+                </div>
+            </div>
+            
+            <button id="startGame" class="btn btn-start">Iniciar Juego</button>
+        </div>
+        
+        <!-- Panel de Juego -->
+        <div id="gamePanel" class="game-panel hidden">
+            <div class="game-info">
+                <div class="info-item">
+                    <span class="label">Cartas restantes:</span>
+                    <span id="remainingCards" class="value">0</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Cartas rojas:</span>
+                    <span id="dangerCount" class="value danger">0</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Cartas verdes:</span>
+                    <span id="safeCount" class="value safe">0</span>
+                </div>
+            </div>
+            
+            <div id="grid" class="grid"></div>
+            
+            <button id="resetGame" class="btn btn-reset">Nueva Partida</button>
+        </div>
+        
+        <!-- Modal de Resultado -->
+        <div id="resultModal" class="modal hidden">
+            <div class="modal-content">
+                <h2 id="resultTitle"></h2>
+                <p id="resultMessage"></p>
+                <button id="playAgain" class="btn btn-primary">Jugar de Nuevo</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
