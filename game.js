@@ -176,11 +176,11 @@ function gameOver(won) {
     if (won) {
         resultTitle.textContent = '¡Ganaste! 🎉';
         resultTitle.className = 'win';
-        resultMessage.textContent = '¡Evitaste todas las cartas rojas! ¡Disfruta tu chupito!';
+        resultMessage.textContent = 'tu contrincante se bebe su vaso del tiron, enhorabuena!';
     } else {
         resultTitle.textContent = '¡Perdiste! 💀';
         resultTitle.className = 'lose';
-        resultMessage.textContent = '¡Ups! Sacaste una carta roja. ¡Mejor suerte la próxima vez!';
+        resultMessage.textContent = '¡Ups! a tomar por saco te toca beber campeon!';
         
         // Reveal all cards
         revealAllCards();

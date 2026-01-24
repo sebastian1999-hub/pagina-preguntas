@@ -5,7 +5,7 @@
     border-radius: 20px;
     padding: 40px;
     max-width: 900px;
-    width: 100%;
+    width: calc(100% - 40px);
     margin: 20px auto;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
@@ -14,8 +14,9 @@
     text-align: center;
     color: #764ba2;
     margin-bottom: 30px;
-    font-size: 32px;
-    font-family: 'Pacifico', cursive;
+    font-size: 36px;
+    font-family: 'Kaushan Script', cursive;
+    font-weight: 400;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -327,8 +328,9 @@
 
 .modal-content h2 {
     margin-bottom: 20px;
-    font-size: 32px;
-    font-family: 'Pacifico', cursive;
+    font-size: 36px;
+    font-family: 'Kaushan Script', cursive;
+    font-weight: 400;
 }
 
 .modal-content h2.win {
