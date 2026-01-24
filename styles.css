@@ -72,19 +72,18 @@ body > .container {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    padding: 20px;
-    margin: 0;
-    width: 100%;
-    max-width: 100%;
+    padding: 30px;
+    margin: 20px auto;
+    width: calc(100% - 40px);
+    max-width: 800px;
 }
 
 .container {
     background: white;
-    border-radius: 0;
+    border-radius: 20px;
     padding: 30px 20px;
     width: 100%;
-    max-width: 100%;
-    box-shadow: none;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
     gap: 25px;
