@@ -1,595 +1,465 @@
 const questions = [
+  // FAUNA - Mamíferos
   {
-    question:
-      "¿Cuántos restaurantes McDonald's hay aproximadamente en el mundo?",
-    answer: "Más de 40,000 restaurantes",
+    question: "¿Cuántos centímetros mide la lengua de una jirafa?",
+    answer: "50 centímetros aproximadamente",
   },
   {
-    question: "¿Cuántos huesos tiene el cuerpo humano adulto?",
-    answer: "206 huesos",
+    question: "¿Cuántos latidos por minuto tiene el corazón de un colibrí?",
+    answer: "Más de 1,200 latidos por minuto",
   },
   {
-    question: "¿Cuántos países hay en el mundo actualmente?",
-    answer: "195 países",
+    question: "¿Cuántos años puede vivir una ballena azul?",
+    answer: "95 años",
   },
   {
-    question: "¿Cuántos kilómetros mide la Gran Muralla China aproximadamente?",
-    answer: "21,196 kilómetros",
+    question: "¿Cuántos kilos de bambú come un panda gigante al día?",
+    answer: "25 kilos",
   },
   {
-    question: "¿Cuántos litros de sangre tiene el cuerpo humano promedio?",
-    answer: "Entre 4.5 y 5.5 litros",
+    question: "¿Cuántas horas al día duerme un koala?",
+    answer: "20 horas",
   },
   {
-    question: "¿Cuántos continentes hay en la Tierra?",
-    answer: "7 continentes",
+    question: "¿Cuántos kilómetros puede caminar un elefante africano en un día?",
+    answer: "Hasta 80 kilómetros",
   },
   {
-    question: "¿Cuántas estrellas tiene aproximadamente la Vía Láctea?",
-    answer: "Entre 100,000 y 400,000 millones de estrellas",
+    question: "¿Cuántos litros de agua puede beber un camello de una vez?",
+    answer: "Hasta 200 litros",
   },
   {
-    question: "¿Cuántos idiomas se hablan en el mundo aproximadamente?",
-    answer: "Más de 7,000 idiomas",
+    question: "¿Cuántos dientes tiene un cocodrilo durante su vida?",
+    answer: "Hasta 3,000 dientes",
   },
   {
-    question: "¿Cuántos metros mide el Monte Everest?",
-    answer: "8,849 metros",
+    question: "¿Cuántos kilómetros puede saltar un canguro en una hora?",
+    answer: "Hasta 60 kilómetros",
   },
   {
-    question: "¿Cuántos océanos hay en el planeta?",
-    answer: "5 océanos",
-  },
-  {
-    question: "¿Cuántos dientes tiene un adulto humano?",
-    answer: "32 dientes",
-  },
-  {
-    question: "¿Cuántos segundos hay en un día?",
-    answer: "86,400 segundos",
-  },
-  {
-    question: "¿Cuántos habitantes tiene aproximadamente la Tierra?",
-    answer: "Más de 8,000 millones de personas",
-  },
-  {
-    question: "¿Cuántos elementos hay en la tabla periódica?",
-    answer: "118 elementos",
-  },
-  {
-    question:
-      "¿Cuántos años luz de diámetro tiene aproximadamente la Vía Láctea?",
-    answer: "Entre 100,000 y 200,000 años luz",
+    question: "¿Cuántos segundos puede contener la respiración una ballena?",
+    answer: "Hasta 90 minutos (5,400 segundos)",
   },
 
+  // FAUNA - Aves
   {
-    question: "¿Cuántos días tiene un año común?",
-    answer: "365 días",
-  },
-  { question: "¿Cuántos días tiene un año bisiesto?", answer: "366 días" },
-  {
-    question: "¿Cuántos continentes hay en el mundo?",
-    answer: "7 continentes",
-  },
-  { question: "¿Cuántos océanos existen en la Tierra?", answer: "5 océanos" },
-  {
-    question: "¿Cuántos huesos tiene el cuerpo humano adulto?",
-    answer: "206 huesos",
+    question: "¿Cuántos kilómetros recorre el charrán ártico en su migración anual?",
+    answer: "Más de 70,000 kilómetros",
   },
   {
-    question: "¿Cuántos músculos aproximadamente tiene el cuerpo humano?",
-    answer: "Más de 600 músculos",
+    question: "¿Cuántas plumas tiene un cisne adulto aproximadamente?",
+    answer: "Más de 25,000 plumas",
   },
   {
-    question: "¿Cuántos países reconocidos existen en el mundo?",
-    answer: "195 países",
-  },
-  { question: "¿Cuántas teclas tiene un piano estándar?", answer: "88 teclas" },
-  { question: "¿Cuántos minutos tiene una hora?", answer: "60 minutos" },
-  { question: "¿Cuántos segundos tiene un minuto?", answer: "60 segundos" },
-
-  {
-    question: "¿Cuántos satélites naturales tiene la Tierra?",
-    answer: "1 satélite natural",
+    question: "¿Cuántos huevos puede poner una gallina al año?",
+    answer: "275 huevos",
   },
   {
-    question:
-      "¿Cuántos kilómetros mide la circunferencia de la Tierra aproximadamente?",
-    answer: "40,075 kilómetros",
+    question: "¿Cuántos metros puede ver un águila desde el aire?",
+    answer: "Hasta 3,000 metros de distancia",
   },
   {
-    question: "¿Cuántos planetas hay en el Sistema Solar?",
-    answer: "8 planetas",
-  },
-  { question: "¿Cuántas lunas tiene Marte?", answer: "2 lunas" },
-  {
-    question:
-      "¿Cuántos años tarda la Tierra en completar una órbita alrededor del Sol?",
-    answer: "1 año",
+    question: "¿Cuántas veces por segundo bate las alas un colibrí?",
+    answer: "65 veces por segundo",
   },
   {
-    question: "¿Cuántas estrellas hay en la Vía Láctea aproximadamente?",
-    answer: "Entre 100,000 y 400,000 millones",
-  },
-  { question: "¿Cuántos metros mide un kilómetro?", answer: "1,000 metros" },
-  {
-    question: "¿Cuántos miligramos tiene un gramo?",
-    answer: "1,000 miligramos",
+    question: "¿Cuántos kilómetros por hora alcanza un halcón peregrino en picada?",
+    answer: "Más de 390 km/h",
   },
   {
-    question: "¿Cuántos centímetros hay en un metro?",
-    answer: "100 centímetros",
-  },
-  { question: "¿Cuántos lados tiene un hexágono?", answer: "6 lados" },
-
-  { question: "¿Cuántas provincias tiene España?", answer: "50 provincias" },
-  { question: "¿Cuántos estados tiene Estados Unidos?", answer: "50 estados" },
-  {
-    question: "¿Cuántos habitantes tiene aproximadamente China?",
-    answer: "Más de 1,400 millones de personas",
+    question: "¿Cuántos años puede vivir un loro africano gris?",
+    answer: "Hasta 60 años",
   },
   {
-    question: "¿Cuántos habitantes tiene aproximadamente India?",
-    answer: "Más de 1,400 millones de personas",
+    question: "¿Cuántos kilos puede cargar un avestruz?",
+    answer: "Hasta 150 kilos",
   },
   {
-    question: "¿Cuántos países conforman la Unión Europea?",
-    answer: "27 países",
+    question: "¿Cuántas especies de pingüinos existen en el mundo?",
+    answer: "18 especies",
   },
   {
-    question: "¿Cuántos idiomas oficiales reconoce la ONU?",
-    answer: "6 idiomas oficiales",
-  },
-  {
-    question: "¿Cuántos metros mide el Monte Everest?",
-    answer: "8,848 metros",
-  },
-  {
-    question: "¿Cuántas veces gira la Tierra sobre su eje en un día?",
-    answer: "1 vez",
-  },
-  {
-    question: "¿Cuántos kilómetros por segundo viaja la luz?",
-    answer: "300,000 km/s aproximadamente",
-  },
-  {
-    question: "¿Cuántos dientes permanentes tiene un adulto?",
-    answer: "32 dientes",
+    question: "¿Cuántos días puede volar un albatros sin tocar tierra?",
+    answer: "Hasta 3 años sin tocar tierra",
   },
 
+  // FAUNA - Insectos y Arácnidos
   {
-    question: "¿Cuántos jugadores por equipo hay en un partido de fútbol?",
-    answer: "11 jugadores",
-  },
-  { question: "¿Cuántos anillos tiene el logo olímpico?", answer: "5 anillos" },
-  {
-    question: "¿Cuántos segundos dura un asalto de boxeo profesional?",
-    answer: "180 segundos",
+    question: "¿Cuántos ojos tiene una araña típica?",
+    answer: "8 ojos",
   },
   {
-    question: "¿Cuántos minutos dura un partido de baloncesto en la NBA?",
-    answer: "48 minutos",
+    question: "¿Cuántas veces su peso puede cargar una hormiga?",
+    answer: "30 veces su peso",
   },
   {
-    question: "¿Cuántos metros mide una piscina olímpica?",
-    answer: "50 metros",
+    question: "¿Cuántos días vive una abeja obrera en verano?",
+    answer: "26.5 días",
   },
   {
-    question: "¿Cuántos hoyos tiene un campo de golf estándar?",
-    answer: "18 hoyos",
+    question: "¿Cuántos kilos de miel produce una colmena al año?",
+    answer: "45 kilos",
   },
   {
-    question: "¿Cuántos puntos vale un triple en baloncesto?",
-    answer: "3 puntos",
-  },
-  { question: "¿Cuántas piezas tiene un ajedrez?", answer: "32 piezas" },
-  {
-    question: "¿Cuántos jugadores hay en un equipo de voleibol?",
-    answer: "6 jugadores",
+    question: "¿Cuántas especies de mariposas existen en el mundo?",
+    answer: "Más de 20,000 especies",
   },
   {
-    question: "¿Cuántos kilómetros tiene una maratón?",
-    answer: "42.195 kilómetros",
-  },
-
-  { question: "¿Cuántos bits tiene un byte?", answer: "8 bits" },
-  {
-    question: "¿Cuántos gigabytes tiene un terabyte?",
-    answer: "1,024 gigabytes",
+    question: "¿Cuántos kilómetros puede recorrer una mariposa monarca en su migración?",
+    answer: "Hasta 4,000 kilómetros",
   },
   {
-    question: "¿Cuántos colores tiene el cubo de Rubik estándar?",
-    answer: "6 colores",
+    question: "¿Cuántos años puede vivir una hormiga reina?",
+    answer: "Hasta 30 años",
   },
   {
-    question: "¿Cuántos caracteres tiene el alfabeto español?",
-    answer: "27 letras",
+    question: "¿Cuántos pares de alas tiene una libélula?",
+    answer: "2 pares (4 alas)",
   },
   {
-    question: "¿Cuántos elementos químicos existen actualmente?",
-    answer: "118 elementos",
+    question: "¿Cuántas veces su longitud puede saltar una pulga?",
+    answer: "Hasta 200 veces su longitud",
   },
   {
-    question: "¿Cuántos metros cuadrados tiene un hectárea?",
-    answer: "10,000 metros cuadrados",
-  },
-  {
-    question: "¿Cuántas notas musicales hay en la escala occidental?",
-    answer: "7 notas",
-  },
-  { question: "¿Cuántos colores tiene el arcoíris?", answer: "7 colores" },
-  { question: "¿Cuántos años dura un siglo?", answer: "100 años" },
-  { question: "¿Cuántos años dura un milenio?", answer: "1,000 años" },
-
-  { question: "¿Cuántas semanas tiene un año?", answer: "52 semanas" },
-  {
-    question: "¿Cuántas horas de diferencia hay entre GMT y UTC?",
-    answer: "0 horas",
-  },
-  { question: "¿Cuántos signos tiene el zodiaco?", answer: "12 signos" },
-  {
-    question: "¿Cuántas cartas tiene una baraja española?",
-    answer: "40 cartas",
-  },
-  {
-    question: "¿Cuántas cartas tiene una baraja francesa?",
-    answer: "52 cartas",
-  },
-  {
-    question: "¿Cuántos grados se requieren para un ángulo recto?",
-    answer: "90 grados",
-  },
-  { question: "¿Cuántos lados tiene un octágono?", answer: "8 lados" },
-  {
-    question:
-      "¿Cuántos planetas enanos reconoce la Unión Astronómica Internacional?",
-    answer: "5 planetas enanos",
-  },
-  { question: "¿Cuántos corazones tiene un pulpo?", answer: "3 corazones" },
-  {
-    question: "¿Cuántos litros de sangre tiene un adulto promedio?",
-    answer: "Entre 4.5 y 6 litros",
+    question: "¿Cuántos segmentos tiene el cuerpo de un ciempiés?",
+    answer: "96 segmentos",
   },
 
+  // FAUNA - Animales Marinos
   {
-    question: "¿Cuántos pies hay en un metro?",
-    answer: "3.28 pies aproximadamente",
-  },
-  { question: "¿Cuántos años tenía Mozart cuando murió?", answer: "35 años" },
-  { question: "¿Cuántas islas componen Japón?", answer: "Más de 6,800 islas" },
-  {
-    question: "¿Cuántos kilómetros tiene el río Amazonas aproximadamente?",
-    answer: "6,400 kilómetros",
+    question: "¿Cuántos brazos tiene una estrella de mar común?",
+    answer: "5 brazos",
   },
   {
-    question: "¿Cuántas lunas tiene Júpiter aproximadamente?",
-    answer: "79 lunas",
+    question: "¿Cuántos tentáculos tiene un pulpo?",
+    answer: "8 tentáculos",
   },
   {
-    question: "¿Cuántas veces más grande es el Sol que la Tierra?",
-    answer: "Más de 1 millón de veces en volumen",
+    question: "¿Cuántos dientes tiene un tiburón blanco?",
+    answer: "Hasta 300 dientes",
   },
   {
-    question: "¿Cuántos días tarda la Luna en orbitar la Tierra?",
-    answer: "27.3 días",
+    question: "¿Cuántos años puede vivir una tortuga marina?",
+    answer: "Hasta 100 años",
   },
   {
-    question: "¿Cuántos huesos tiene un bebé al nacer?",
-    answer: "Alrededor de 270 huesos",
-  },
-  { question: "¿Cuántos países tiene América?", answer: "35 países" },
-  {
-    question: "¿Cuántos puntos tiene un dado estándar?",
-    answer: "21 puntos en total",
-  },
-
-  {
-    question: "¿Cuántos años tardó en construirse la Gran Muralla China?",
-    answer: "Más de 2,000 años",
+    question: "¿Cuántos litros de agua filtra una ballena azul al alimentarse?",
+    answer: "Hasta 90,000 litros por bocado",
   },
   {
-    question: "¿Cuántos litros tiene un metro cúbico?",
-    answer: "1,000 litros",
+    question: "¿Cuántos colores puede cambiar un pulpo en un segundo?",
+    answer: "Múltiples colores en menos de 1 segundo",
   },
   {
-    question: "¿Cuántos habitantes tiene aproximadamente México?",
-    answer: "Más de 126 millones de personas",
+    question: "¿Cuántos kilos puede pesar un calamar gigante?",
+    answer: "Hasta 275 kilos",
   },
   {
-    question:
-      "¿Cuántos lenguajes de programación se usan ampliamente hoy en día?",
-    answer: "Más de 700 lenguajes",
+    question: "¿Cuántos años puede vivir una almeja islandesa?",
+    answer: "Más de 500 años",
   },
   {
-    question: "¿Cuántos cromosomas tiene el ser humano?",
-    answer: "46 cromosomas",
-  },
-  { question: "¿Cuántas provincias tiene Argentina?", answer: "23 provincias" },
-  {
-    question: "¿Cuántos kilómetros cuadrados tiene África?",
-    answer: "30 millones de km² aproximadamente",
-  },
-  { question: "¿Cuántos vértices tiene un cubo?", answer: "8 vértices" },
-  { question: "¿Cuántos países forman Oceanía?", answer: "14 países" },
-  { question: "¿Cuántos años gobernó la reina Isabel II?", answer: "70 años" },
-
-  { question: "¿Cuántos días dura un ciclo lunar?", answer: "29.5 días" },
-  {
-    question: "¿Cuántos colores tiene la bandera de Francia?",
-    answer: "3 colores",
+    question: "¿Cuántos metros puede medir una medusa melena de león?",
+    answer: "Hasta 37 metros de longitud",
   },
   {
-    question: "¿Cuántos años duró la Primera Guerra Mundial?",
-    answer: "4 años",
-  },
-  {
-    question: "¿Cuántos años duró la Segunda Guerra Mundial?",
-    answer: "6 años",
-  },
-  {
-    question: "¿Cuántas teclas tiene un teclado de computadora estándar?",
-    answer: "104 teclas",
-  },
-  {
-    question: "¿Cuántos mandamientos hay en la tradición judeocristiana?",
-    answer: "10 mandamientos",
-  },
-  { question: "¿Cuántos lados tiene un dodecaedro?", answer: "12 caras" },
-  {
-    question: "¿Cuántos satélites tiene Saturno aproximadamente?",
-    answer: "83 satélites",
-  },
-  {
-    question: "¿Cuántos habitantes tiene aproximadamente Brasil?",
-    answer: "Más de 215 millones de personas",
-  },
-  {
-    question: "¿Cuántos mililitros tiene un litro?",
-    answer: "1,000 mililitros",
+    question: "¿Cuántas ventosas tiene un tentáculo de calamar gigante?",
+    answer: "Más de 300 ventosas",
   },
 
+  // FLORA - Árboles
   {
-    question: "¿Cuántos kilómetros mide la Muralla China aproximadamente?",
-    answer: "21,000 kilómetros",
+    question: "¿Cuántos años puede vivir un árbol de secuoya gigante?",
+    answer: "Más de 3,000 años",
   },
   {
-    question: "¿Cuántos nervios craneales tiene el ser humano?",
-    answer: "12 nervios craneales",
-  },
-  { question: "¿Cuántos huesos tiene la mano humana?", answer: "27 huesos" },
-  {
-    question: "¿Cuántos minutos dura una película promedio?",
-    answer: "Entre 90 y 120 minutos",
+    question: "¿Cuántos metros puede crecer un bambú en un día?",
+    answer: "Hasta 91 centímetros (0.91 metros)",
   },
   {
-    question: "¿Cuántos litros de agua se recomienda beber al día?",
-    answer: "2 litros aproximadamente",
+    question: "¿Cuántos litros de agua puede absorber un árbol adulto al día?",
+    answer: "600 litros",
   },
   {
-    question: "¿Cuántas especies de aves existen en el mundo?",
-    answer: "Más de 10,000 especies",
+    question: "¿Cuántos metros mide el árbol más alto del mundo (Hyperion)?",
+    answer: "115.7 metros",
   },
   {
-    question: "¿Cuántas calorías tiene un kilogramo de grasa corporal?",
-    answer: "7,700 calorías",
+    question: "¿Cuántos años tiene el árbol más antiguo del mundo?",
+    answer: "Más de 5,000 años",
   },
   {
-    question: "¿Cuántos glóbulos rojos hay en una gota de sangre?",
-    answer: "Millones de glóbulos rojos",
+    question: "¿Cuántas especies de árboles existen en el Amazonas?",
+    answer: "Más de 16,000 especies",
   },
   {
-    question: "¿Cuántas vértebras tiene la columna humana?",
-    answer: "33 vértebras",
+    question: "¿Cuántos kilos de oxígeno produce un árbol maduro al año?",
+    answer: "110 kilos",
   },
   {
-    question: "¿Cuántos litros de aire respira una persona al día?",
-    answer: "Alrededor de 11,000 litros",
-  },
-
-  {
-    question: "¿Cuántos planetas exteriores tiene el Sistema Solar?",
-    answer: "4 planetas exteriores",
+    question: "¿Cuántos metros pueden crecer las raíces de un árbol?",
+    answer: "Hasta 60 metros de profundidad",
   },
   {
-    question:
-      "¿Cuántos bloques tiene la piedra lunar más grande traída a la Tierra?",
-    answer: "11.7 kilogramos",
+    question: "¿Cuántas hojas puede tener un roble adulto?",
+    answer: "Más de 200,000 hojas",
   },
   {
-    question: "¿Cuántos años vive un roble promedio?",
-    answer: "Entre 200 y 500 años",
-  },
-  {
-    question: "¿Cuántas horas duerme un adulto promedio al día?",
-    answer: "Entre 7 y 9 horas",
-  },
-  {
-    question: "¿Cuántos kilómetros por hora puede correr un guepardo?",
-    answer: "Hasta 120 km/h",
-  },
-  {
-    question: "¿Cuántas personas caben en un avión comercial típico?",
-    answer: "Entre 150 y 300 personas",
-  },
-  {
-    question: "¿Cuántos días puede sobrevivir una persona sin agua?",
-    answer: "Entre 3 y 5 días",
-  },
-  {
-    question: "¿Cuántos idiomas se hablan en la India?",
-    answer: "Más de 400 idiomas",
-  },
-  {
-    question: "¿Cuántos metros de altura tiene la Torre Eiffel?",
-    answer: "324 metros",
-  },
-  { question: "¿Cuántos años tiene un lustro?", answer: "5 años" },
-
-  {
-    question: "¿Cuántos libros conforman la Biblia cristiana?",
-    answer: "66 libros",
-  },
-  {
-    question: "¿Cuántos gramos pesa un litro de agua?",
-    answer: "1,000 gramos",
-  },
-  {
-    question: "¿Cuántos corazones tiene una lombriz de tierra?",
-    answer: "5 corazones",
-  },
-  {
-    question: "¿Cuántos millones de km² tiene la Antártida?",
-    answer: "14 millones de km²",
-  },
-  {
-    question: "¿Cuántos años se estima que tiene el universo?",
-    answer: "13.8 mil millones de años",
-  },
-  { question: "¿Cuántas notas tiene un piano cromático?", answer: "88 notas" },
-  { question: "¿Cuántas lunas tiene Neptuno?", answer: "14 lunas" },
-  {
-    question: "¿Cuántos premios Óscar se entregan por ceremonia?",
-    answer: "24 categorías",
-  },
-  {
-    question: "¿Cuántos habitantes tiene aproximadamente Nigeria?",
-    answer: "Más de 220 millones de personas",
-  },
-  { question: "¿Cuántas patas tiene un insecto?", answer: "6 patas" },
-
-  {
-    question: "¿Cuántas costillas tiene el cuerpo humano?",
-    answer: "24 costillas",
-  },
-  { question: "¿Cuántas hojas tiene un trébol común?", answer: "3 hojas" },
-  {
-    question: "¿Cuántos kilómetros cuadrados tiene Rusia?",
-    answer: "17 millones de km²",
-  },
-  {
-    question: "¿Cuántos días tiene febrero en un año común?",
-    answer: "28 días",
-  },
-  {
-    question: "¿Cuántos puntos tiene una estrella típica dibujada?",
-    answer: "5 puntos",
-  },
-  {
-    question: "¿Cuántos músculos se utilizan al sonreír?",
-    answer: "17 músculos",
-  },
-  {
-    question: "¿Cuántos músculos se utilizan al fruncir el ceño?",
-    answer: "43 músculos",
-  },
-  { question: "¿Cuántos huesos forman el cráneo humano?", answer: "22 huesos" },
-  {
-    question: "¿Cuántos pares de cromosomas tiene un humano?",
-    answer: "23 pares",
-  },
-  { question: "¿Cuántos metros mide el Big Ben?", answer: "96 metros" },
-
-  {
-    question: "¿Cuántos años vive una tortuga gigante?",
-    answer: "Más de 100 años",
-  },
-  {
-    question: "¿Cuántos días puede sobrevivir una persona sin comida?",
-    answer: "Entre 30 y 40 días",
-  },
-  { question: "¿Cuántos dedos tiene un ser humano?", answer: "20 dedos" },
-  {
-    question: "¿Cuántos minutos se recomienda lavar los dientes?",
-    answer: "2 minutos",
-  },
-  {
-    question: "¿Cuántas neuronas tiene el cerebro humano?",
-    answer: "86,000 millones aproximadamente",
-  },
-  { question: "¿Cuántos satélites tiene Urano?", answer: "27 satélites" },
-  {
-    question: "¿Cuántos kilómetros mide la Gran Barrera de Coral?",
-    answer: "2,300 kilómetros",
-  },
-  {
-    question: "¿Cuántos volcanes activos hay en el mundo?",
-    answer: "Más de 1,500",
-  },
-  {
-    question: "¿Cuántos glaciares existen en la Patagonia?",
-    answer: "Más de 300 glaciares",
-  },
-  {
-    question: "¿Cuántos elementos componen el ADN?",
-    answer: "4 bases nitrogenadas",
+    question: "¿Cuántos anillos de crecimiento tiene un árbol centenario?",
+    answer: "Uno por cada año de vida",
   },
 
+  // FLORA - Plantas y Flores
   {
-    question: "¿Cuántos sentidos tiene el ser humano tradicionalmente?",
-    answer: "5 sentidos",
+    question: "¿Cuántos días puede sobrevivir una rosa del desierto sin agua?",
+    answer: "Hasta 5 años en sequía",
   },
   {
-    question: "¿Cuántas veces late el corazón por minuto en reposo?",
-    answer: "60 a 100 veces",
+    question: "¿Cuántos pétalos tiene un girasol gigante?",
+    answer: "1,500 flores diminutas",
   },
   {
-    question: "¿Cuántos litros de gasolina caben en un coche promedio?",
-    answer: "Entre 45 y 60 litros",
-  },
-  { question: "¿Cuántos kilómetros mide el Nilo?", answer: "6,650 kilómetros" },
-  { question: "¿Cuántos elementos tiene una docena?", answer: "12 elementos" },
-  {
-    question: "¿Cuántos climas principales existen según Köppen?",
-    answer: "5 grandes climas",
+    question: "¿Cuántos litros de néctar necesita una abeja para hacer un kilo de miel?",
+    answer: "Necesita visitar 4 millones de flores",
   },
   {
-    question: "¿Cuántos órganos principales tiene el cuerpo humano?",
-    answer: "Más de 70 órganos",
+    question: "¿Cuántos metros puede medir la flor cadáver (Amorphophallus)?",
+    answer: "Hasta 3 metros de altura",
   },
   {
-    question: "¿Cuántos satélites artificiales orbitan la Tierra?",
-    answer: "Más de 7,000 satélites",
+    question: "¿Cuántas especies de orquídeas existen en el mundo?",
+    answer: "Más de 25,000 especies",
   },
   {
-    question: "¿Cuántos kilos pesa un león adulto?",
-    answer: "Entre 150 y 250 kg",
+    question: "¿Cuántos años puede vivir un cactus saguaro?",
+    answer: "Hasta 200 años",
   },
   {
-    question: "¿Cuántos años vive un perro en promedio?",
-    answer: "Entre 10 y 13 años",
+    question: "¿Cuántos litros de agua puede almacenar un cactus barril?",
+    answer: "Hasta 200 litros",
+  },
+  {
+    question: "¿Cuántos días tarda en florecer una flor de loto?",
+    answer: "3.5 días",
+  },
+  {
+    question: "¿Cuántas semillas puede tener una vaina de amapola?",
+    answer: "Hasta 2,000 semillas",
+  },
+  {
+    question: "¿Cuántos metros puede extenderse una planta de hiedra?",
+    answer: "Hasta 30 metros",
   },
 
+  // PLANETA - Océanos y Mares
   {
-    question: "¿Cuántos aeropuertos internacionales hay en Estados Unidos?",
-    answer: "Más de 100 aeropuertos",
-  },
-  { question: "¿Cuántas horas tiene un día en Marte?", answer: "24.6 horas" },
-  {
-    question: "¿Cuántos años tarda Saturno en orbitar el Sol?",
-    answer: "29.4 años",
+    question: "¿Cuántos metros de profundidad tiene la Fosa de las Marianas?",
+    answer: "11,034 metros",
   },
   {
-    question: "¿Cuántos kilómetros mide la costa de Chile?",
-    answer: "6,400 kilómetros",
+    question: "¿Cuántos litros de agua contienen los océanos del mundo?",
+    answer: "Más de 1.3 mil millones de kilómetros cúbicos",
   },
   {
-    question: "¿Cuántas especies de mamíferos existen?",
-    answer: "Más de 6,000 especies",
+    question: "¿Cuántas especies marinas se estima que existen en los océanos?",
+    answer: "Más de 2 millones de especies",
   },
   {
-    question: "¿Cuántos idiomas se hablan en el mundo?",
-    answer: "Más de 7,000 idiomas",
+    question: "¿Cuántos kilómetros cuadrados cubre el Océano Pacífico?",
+    answer: "Más de 165 millones de km²",
   },
   {
-    question: "¿Cuántos pasos debe caminar una persona al día?",
-    answer: "10,000 pasos recomendados",
+    question: "¿Cuántos arrecifes de coral existen en el mundo?",
+    answer: "Más de 6,000 arrecifes",
   },
-  { question: "¿Cuánto mide la Estatua de la Libertad?", answer: "93 metros" },
   {
-    question: "¿Cuántos grados Fahrenheit equivalen a 0 grados Celsius?",
-    answer: "32 grados Fahrenheit",
+    question: "¿Cuántos grados Celsius tiene el agua en las fumarolas oceánicas?",
+    answer: "Hasta 400°C",
   },
-  { question: "¿Cuántos pulmones tiene el ser humano?", answer: "2 pulmones" },
+  {
+    question: "¿Cuántos kilómetros de longitud tiene la corriente del Golfo?",
+    answer: "Más de 10,000 kilómetros",
+  },
+  {
+    question: "¿Cuántos metros se ha elevado el nivel del mar en 100 años?",
+    answer: "17.5 centímetros",
+  },
+  {
+    question: "¿Cuántas toneladas de plástico hay en los océanos?",
+    answer: "Más de 150 millones de toneladas",
+  },
+  {
+    question: "¿Cuántos volcanes submarinos activos hay en el mundo?",
+    answer: "Más de 1 millón de volcanes",
+  },
+
+  // PLANETA - Montañas y Volcanes
+  {
+    question: "¿Cuántos metros mide el volcán más alto del mundo (Ojos del Salado)?",
+    answer: "6,893 metros",
+  },
+  {
+    question: "¿Cuántos grados Celsius puede alcanzar la lava de un volcán?",
+    answer: "950°C",
+  },
+  {
+    question: "¿Cuántos kilómetros cuadrados cubrió la erupción del Krakatoa en 1883?",
+    answer: "Más de 800,000 km² de cenizas",
+  },
+  {
+    question: "¿Cuántos metros crece el Monte Everest cada año?",
+    answer: "4 milímetros por año",
+  },
+  {
+    question: "¿Cuántas cadenas montañosas importantes hay en el mundo?",
+    answer: "Más de 50 cadenas principales",
+  },
+  {
+    question: "¿Cuántos glaciares hay en el mundo?",
+    answer: "Más de 200,000 glaciares",
+  },
+  {
+    question: "¿Cuántos metros de hielo tiene el glaciar más grueso de la Antártida?",
+    answer: "Hasta 4,776 metros",
+  },
+  {
+    question: "¿Cuántos volcanes hay en el Anillo de Fuego del Pacífico?",
+    answer: "Más de 450 volcanes",
+  },
+  {
+    question: "¿Cuántos años tiene la cordillera del Himalaya?",
+    answer: "Más de 50 millones de años",
+  },
+  {
+    question: "¿Cuántos kilómetros de largo tiene la cordillera de los Andes?",
+    answer: "7,000 kilómetros",
+  },
+
+  // PLANETA - Bosques y Selvas
+  {
+    question: "¿Cuántos kilómetros cuadrados ocupa la selva amazónica?",
+    answer: "5.5 millones de km²",
+  },
+  {
+    question: "¿Cuántas especies de plantas hay en la Amazonía?",
+    answer: "Más de 80,000 especies",
+  },
+  {
+    question: "¿Cuántos litros de agua recicla la selva amazónica al día?",
+    answer: "20,000 millones de litros",
+  },
+  {
+    question: "¿Cuántos árboles hay en el planeta Tierra?",
+    answer: "Más de 3 billones de árboles",
+  },
+  {
+    question: "¿Cuántos kilómetros cuadrados de bosque se pierden al año?",
+    answer: "Más de 100,000 km² anuales",
+  },
+  {
+    question: "¿Cuántos años tiene el bosque tropical más antiguo?",
+    answer: "Más de 130 millones de años",
+  },
+  {
+    question: "¿Cuántas especies animales viven en la selva amazónica?",
+    answer: "Más de 2.5 millones de especies",
+  },
+  {
+    question: "¿Cuántos metros de altura puede alcanzar el dosel de la selva tropical?",
+    answer: "37.5 metros",
+  },
+  {
+    question: "¿Cuántas toneladas de oxígeno produce el Amazonas al año?",
+    answer: "Más de 6,000 millones de toneladas",
+  },
+  {
+    question: "¿Cuántos ríos tributarios tiene el río Amazonas?",
+    answer: "Más de 1,100 ríos tributarios",
+  },
+
+  // PLANETA - Desiertos
+  {
+    question: "¿Cuántos kilómetros cuadrados mide el desierto del Sahara?",
+    answer: "9 millones de km²",
+  },
+  {
+    question: "¿Cuántos grados Celsius puede alcanzar el desierto más caliente?",
+    answer: "Hasta 56.7°C (Desierto de Lut)",
+  },
+  {
+    question: "¿Cuántos milímetros de lluvia recibe el desierto de Atacama al año?",
+    answer: "Menos de 1 milímetro",
+  },
+  {
+    question: "¿Cuántos años puede tener una duna del Sahara?",
+    answer: "Hasta 10,000 años",
+  },
+  {
+    question: "¿Cuántos metros de altura puede alcanzar una duna de arena?",
+    answer: "Hasta 250 metros",
+  },
+  {
+    question: "¿Cuántos desiertos principales hay en el mundo?",
+    answer: "23 desiertos principales",
+  },
+  {
+    question: "¿Cuántos kilómetros puede viajar una tormenta de arena del Sahara?",
+    answer: "Hasta 5,000 kilómetros",
+  },
+  {
+    question: "¿Cuántos litros de agua necesita un ser humano en el desierto diariamente?",
+    answer: "8.5 litros",
+  },
+  {
+    question: "¿Cuántas especies de animales viven en el desierto del Sahara?",
+    answer: "Más de 500 especies",
+  },
+  {
+    question: "¿Cuántos grados bajo cero puede alcanzar el desierto de Gobi?",
+    answer: "Hasta -40°C",
+  },
+
+  // PLANETA - Clima y Atmósfera
+  {
+    question: "¿Cuántos rayos caen en la Tierra por segundo?",
+    answer: "Aproximadamente 100 rayos",
+  },
+  {
+    question: "¿Cuántos kilómetros de grosor tiene la atmósfera terrestre?",
+    answer: "Hasta 10,000 kilómetros",
+  },
+  {
+    question: "¿Cuántos litros de agua caen en una tormenta tropical?",
+    answer: "Hasta 50 millones de litros por kilómetro cuadrado",
+  },
+  {
+    question: "¿Cuántos kilómetros por hora puede alcanzar un tornado F5?",
+    answer: "Más de 480 km/h",
+  },
+  {
+    question: "¿Cuántos días al año llueve en el lugar más lluvioso del mundo?",
+    answer: "Más de 350 días (Mawsynram, India)",
+  },
+  {
+    question: "¿Cuántos grados Celsius fue la temperatura más baja registrada en la Tierra?",
+    answer: "-89.2°C en la Antártida",
+  },
+  {
+    question: "¿Cuántas gotas de agua contiene una nube típica?",
+    answer: "Más de 100 millones de gotas",
+  },
+  {
+    question: "¿Cuántos kilómetros por hora puede soplar el viento en un huracán categoría 5?",
+    answer: "Más de 252 km/h",
+  },
+  {
+    question: "¿Cuántos metros de nieve caen en las zonas más nevadas del mundo al año?",
+    answer: "Hasta 30 metros",
+  },
+  {
+    question: "¿Cuántos millones de toneladas de agua hay en la atmósfera?",
+    answer: "Más de 12,900 millones de toneladas",
+  },
 ];
 
 let currentQuestion = null;
