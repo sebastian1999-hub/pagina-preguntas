@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retos y Castigos - Chupito Gratuito</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="challenges.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Preguntas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="game.html" class="nav-link">Juego de Cartas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="memory.html" class="nav-link">Juego de Parejas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="challenges.html" class="nav-link active">Retos y Castigos</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="challenges-container">
+        <h1 class="challenges-title">🎯 Retos y Castigos 🎯</h1>
+        
+        <!-- Panel de Configuración -->
+        <div id="setupPanel" class="setup-panel">
+            <div class="input-section">
+                <h2>Agregar Retos o Castigos</h2>
+                <textarea id="challengeInput" placeholder="Escribe un reto o castigo..." rows="3"></textarea>
+                <button id="addChallengeBtn" class="add-btn">➕ Agregar</button>
+            </div>
+            
+            <div class="list-section">
+                <h3>Lista de Retos (<span id="challengeCount">0</span>)</h3>
+                <div id="challengeList" class="challenge-list">
+                    <!-- Se llenará dinámicamente -->
+                </div>
+            </div>
+            
+            <button id="startChallengesBtn" class="start-btn" disabled>Iniciar Juego</button>
+        </div>
+        
+        <!-- Panel de Juego -->
+        <div id="gamePanel" class="game-panel hidden">
+            <div class="game-info">
+                <p>Tarjetas restantes: <strong id="cardsRemaining">0</strong></p>
+                <button id="resetChallengesBtn" class="reset-btn">🔄 Nuevo Juego</button>
+            </div>
+            
+            <div id="cardsGrid" class="cards-grid">
+                <!-- Se llenará dinámicamente con las tarjetas -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="challenges.js"></script>
+</body>
+</html>

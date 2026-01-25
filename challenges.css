@@ -1,0 +1,350 @@
+/* Estilos específicos para Retos y Castigos */
+
+.challenges-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.challenges-title {
+    font-family: 'Kaushan Script', cursive;
+    font-size: 3rem;
+    color: #ff6b6b;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Panel de Configuración */
+.setup-panel {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.input-section {
+    margin-bottom: 30px;
+}
+
+.input-section h2 {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+#challengeInput {
+    width: 100%;
+    padding: 15px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    resize: vertical;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+#challengeInput:focus {
+    outline: 3px solid #ff6b6b;
+}
+
+.add-btn {
+    background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+}
+
+.add-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Lista de Retos */
+.list-section {
+    margin-bottom: 30px;
+}
+
+.list-section h3 {
+    color: white;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+.challenge-list {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    max-height: 300px;
+    overflow-y: auto;
+    text-align: left;
+}
+
+.challenge-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.challenge-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.challenge-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+.challenge-item {
+    background: white;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.challenge-item span {
+    flex: 1;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.remove-btn {
+    background: #ff4757;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.remove-btn:hover {
+    background: #ff3838;
+    transform: scale(1.1);
+}
+
+.challenge-list-empty {
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Presets */
+.presets-section {
+    margin-bottom: 25px;
+}
+
+.presets-section h3 {
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.preset-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 5px;
+}
+
+.preset-btn:hover {
+    background: white;
+    color: #667eea;
+    transform: translateY(-2px);
+}
+
+.start-btn {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.start-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.start-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Panel de Juego */
+.game-panel {
+    margin-top: 30px;
+}
+
+.game-info {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.game-info p {
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.reset-btn {
+    background: white;
+    color: #667eea;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.reset-btn:hover {
+    background: #ff6b6b;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Grid de Tarjetas */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    padding: 20px 0;
+}
+
+/* Tarjeta con Efecto de Volteo */
+.challenge-card {
+    height: 180px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.challenge-card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.card-front {
+    background: linear-gradient(135deg, #ff8e53 0%, #ffe66d 100%);
+    font-size: 3rem;
+}
+
+.card-back {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transform: rotateY(180deg);
+    overflow-y: auto;
+}
+
+.card-back p {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin: 0;
+    word-wrap: break-word;
+}
+
+.challenge-card.completed {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.challenge-card.completed .card-back {
+    background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+}
+
+.hidden {
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .challenges-title {
+        font-size: 2rem;
+    }
+    
+    .setup-panel {
+        padding: 20px;
+    }
+    
+    .cards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 12px;
+    }
+    
+    .challenge-card {
+        height: 150px;
+    }
+    
+    .card-front {
+        font-size: 2.5rem;
+    }
+    
+    .card-back p {
+        font-size: 0.85rem;
+    }
+}
