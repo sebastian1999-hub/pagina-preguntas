@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Parejas - Chupito Gratuito</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="memory.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Preguntas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="game.html" class="nav-link">Juego de Cartas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="memory.html" class="nav-link active">Juego de Parejas</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="memory-container">
+        <h1 class="memory-title">� Memoria Selectiva 🤔</h1>
+        
+        <!-- Panel de Configuración -->
+        <div id="setupPanel" class="setup-panel">
+            <div class="config-group">
+                <label>Tamaño de la Cuadrícula:</label>
+                <div class="button-group">
+                    <button class="size-btn active" data-size="5">5x5</button>
+                    <button class="size-btn" data-size="7">7x7</button>
+                    <button class="size-btn" data-size="9">9x9</button>
+                </div>
+            </div>
+            
+            <div class="config-group">
+                <label for="numPlayers">Número de Jugadores:</label>
+                <div class="players-input-group">
+                    <button id="decreasePlayer" class="player-btn">-</button>
+                    <input type="number" id="numPlayers" min="1" max="6" value="2" readonly>
+                    <button id="increasePlayer" class="player-btn">+</button>
+                </div>
+            </div>
+            
+            <button id="startGameBtn" class="start-btn">Iniciar Juego</button>
+        </div>
+        
+        <!-- Panel de Juego -->
+        <div id="gamePanel" class="game-panel hidden">
+            <div class="score-panel">
+                <div id="playersScore" class="players-score">
+                    <!-- Se llenará dinámicamente con JavaScript -->
+                </div>
+                <div class="game-info">
+                    <p id="currentTurn">Turno: Jugador 1</p>
+                </div>
+            </div>
+            
+            <div id="memoryGrid" class="memory-grid">
+                <!-- Se llenará dinámicamente con JavaScript -->
+            </div>
+            
+            <button id="resetGameBtn" class="reset-btn">Nuevo Juego</button>
+        </div>
+        
+        <!-- Modal de Victoria -->
+        <div id="winModal" class="modal hidden">
+            <div class="modal-content">
+                <h2>🎉 ¡Juego Terminado! 🎉</h2>
+                <div id="winnerInfo"></div>
+                <button id="playAgainBtn" class="play-again-btn">Jugar de Nuevo</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="memory.js"></script>
+</body>
+</html>
