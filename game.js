@@ -5,7 +5,10 @@ let gameState = {
     totalCards: 9,
     flippedCards: 0,
     cards: [],
-    gameOver: false
+    gameOver: false,
+    currentPlayer: 1,
+    player1: { redCards: 0, greenCards: 0 },
+    player2: { redCards: 0, greenCards: 0 }
 };
 
 // DOM Elements
@@ -23,6 +26,14 @@ const resultMessage = document.getElementById('resultMessage');
 const remainingCardsEl = document.getElementById('remainingCards');
 const dangerCountEl = document.getElementById('dangerCount');
 const safeCountEl = document.getElementById('safeCount');
+
+// Player elements
+const player1Card = document.getElementById('player1Card');
+const player2Card = document.getElementById('player2Card');
+const player1RedEl = document.getElementById('player1Red');
+const player1GreenEl = document.getElementById('player1Green');
+const player2RedEl = document.getElementById('player2Red');
+const player2GreenEl = document.getElementById('player2Green');
 
 // Size buttons
 const sizeBtns = document.querySelectorAll('.size-btn');
@@ -70,6 +81,9 @@ function startGame() {
     gameState.totalCards = gameState.gridSize * gameState.gridSize;
     gameState.flippedCards = 0;
     gameState.gameOver = false;
+    gameState.currentPlayer = 1;
+    gameState.player1 = { redCards: 0, greenCards: 0 };
+    gameState.player2 = { redCards: 0, greenCards: 0 };
     
     // Generate cards array
     gameState.cards = generateCards();
@@ -80,6 +94,7 @@ function startGame() {
     
     // Update info
     updateGameInfo();
+    updatePlayerTurn();
     
     // Render grid
     renderGrid();
@@ -142,22 +157,38 @@ function flipCard(index, cardEl) {
     cardEl.classList.add('flipped');
     gameState.flippedCards++;
     
+    // Update current player's stats
+    const currentPlayerStats = gameState.currentPlayer === 1 ? gameState.player1 : gameState.player2;
+    
+    if (card.type === 'danger') {
+        currentPlayerStats.redCards++;
+    } else {
+        currentPlayerStats.greenCards++;
+    }
+    
     updateGameInfo();
     
-    // Check if danger card
-    if (card.type === 'danger') {
+    // Check if all cards are flipped
+    if (gameState.flippedCards === gameState.totalCards) {
         setTimeout(() => {
-            gameOver(false);
+            // Determinar ganador por quien tiene menos cartas rojas
+            if (gameState.player1.redCards < gameState.player2.redCards) {
+                gameOver('player1');
+            } else if (gameState.player2.redCards < gameState.player1.redCards) {
+                gameOver('player2');
+            } else {
+                // Empate
+                gameOver('tie');
+            }
         }, 800);
-    } else {
-        // Check if won
-        const remainingSafe = gameState.cards.filter(c => c.type === 'safe' && !c.flipped).length;
-        if (remainingSafe === 0) {
-            setTimeout(() => {
-                gameOver(true);
-            }, 800);
-        }
+        return;
     }
+    
+    // Cambiar de turno
+    setTimeout(() => {
+        gameState.currentPlayer = gameState.currentPlayer === 1 ? 2 : 1;
+        updatePlayerTurn();
+    }, 500);
 }
 
 function updateGameInfo() {
@@ -168,21 +199,41 @@ function updateGameInfo() {
     remainingCardsEl.textContent = remaining;
     dangerCountEl.textContent = dangerRemaining;
     safeCountEl.textContent = safeRemaining;
+    
+    // Update player stats
+    player1RedEl.textContent = gameState.player1.redCards;
+    player1GreenEl.textContent = gameState.player1.greenCards;
+    player2RedEl.textContent = gameState.player2.redCards;
+    player2GreenEl.textContent = gameState.player2.greenCards;
 }
 
-function gameOver(won) {
+function updatePlayerTurn() {
+    if (gameState.currentPlayer === 1) {
+        player1Card.classList.add('active-player');
+        player2Card.classList.remove('active-player');
+    } else {
+        player2Card.classList.add('active-player');
+        player1Card.classList.remove('active-player');
+    }
+}
+
+function gameOver(result) {
     gameState.gameOver = true;
     
-    if (won) {
-        resultTitle.textContent = '¡Ganaste! 🎉';
+    if (result === 'player1') {
+        resultTitle.textContent = '¡Jugador 1 Ganó! 🎉';
         resultTitle.className = 'win';
-        resultMessage.textContent = 'tu contrincante se bebe su vaso del tiron, enhorabuena!';
-    } else {
-        resultTitle.textContent = '¡Perdiste! 💀';
-        resultTitle.className = 'lose';
-        resultMessage.textContent = '¡Ups! a tomar por saco te toca beber campeon!';
-        
-        // Reveal all cards
+        resultMessage.textContent = `¡Jugador 1 levantó menos cartas rojas! Jugador 1: ${gameState.player1.redCards} rojas vs Jugador 2: ${gameState.player2.redCards} rojas. ¡Jugador 2 bebe!`;
+        revealAllCards();
+    } else if (result === 'player2') {
+        resultTitle.textContent = '¡Jugador 2 Ganó! 🎉';
+        resultTitle.className = 'win';
+        resultMessage.textContent = `¡Jugador 2 levantó menos cartas rojas! Jugador 1: ${gameState.player1.redCards} rojas vs Jugador 2: ${gameState.player2.redCards} rojas. ¡Jugador 1 bebe!`;
+        revealAllCards();
+    } else if (result === 'tie') {
+        resultTitle.textContent = '¡Empate! 🤝';
+        resultTitle.className = 'win';
+        resultMessage.textContent = `¡Ambos jugadores levantaron ${gameState.player1.redCards} cartas rojas! ¡Los dos beben!`;
         revealAllCards();
     }
     
@@ -207,13 +258,20 @@ function resetToSetup() {
     gamePanel.classList.add('hidden');
     resultModal.classList.add('hidden');
     
+    // Remove active player indicators
+    player1Card.classList.remove('active-player');
+    player2Card.classList.remove('active-player');
+    
     gameState = {
         gridSize: gameState.gridSize,
         dangerCards: parseInt(dangerCardsInput.value),
         totalCards: gameState.gridSize * gameState.gridSize,
         flippedCards: 0,
         cards: [],
-        gameOver: false
+        gameOver: false,
+        currentPlayer: 1,
+        player1: { redCards: 0, greenCards: 0 },
+        player2: { redCards: 0, greenCards: 0 }
     };
 }
 

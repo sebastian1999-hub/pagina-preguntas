@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Rancho&display=swap');
+
 /* Estilos específicos para el juego de parejas */
 
 .memory-container {
@@ -8,7 +10,7 @@
 }
 
 .memory-title {
-    font-family: 'Kaushan Script', cursive;
+    font-family: 'Rancho', cursive;
     font-size: 3rem;
     color: #ff6b6b;
     margin-bottom: 30px;
@@ -330,6 +332,7 @@
     color: white;
     font-size: 2.5rem;
     margin-bottom: 20px;
+    font-family: 'Rancho', cursive;
 }
 
 #winnerInfo {
