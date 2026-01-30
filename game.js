@@ -161,7 +161,38 @@ function shuffleArray(array) {
 }
 
 function renderGrid() {
-    grid.innerHTML = '' = gameState.players[gameState.currentPlayer - 1];
+    grid.innerHTML = '';
+    grid.className = `grid size-${gameState.gridSize}`;
+    
+    gameState.cards.forEach((card, index) => {
+        const cardEl = document.createElement('div');
+        cardEl.className = 'card';
+        cardEl.innerHTML = `
+            <div class="card-inner">
+                <div class="card-front">?</div>
+                <div class="card-back ${card.type}">
+                    ${card.type === 'danger' ? '💀' : '✨'}
+                </div>
+            </div>
+        `;
+        
+        cardEl.addEventListener('click', () => flipCard(index, cardEl));
+        grid.appendChild(cardEl);
+    });
+}
+
+function flipCard(index, cardEl) {
+    if (gameState.gameOver || gameState.cards[index].flipped || cardEl.classList.contains('flipped')) {
+        return;
+    }
+    
+    const card = gameState.cards[index];
+    card.flipped = true;
+    cardEl.classList.add('flipped');
+    gameState.flippedCards++;
+    
+    // Update current player's stats
+    const currentPlayer = gameState.players[gameState.currentPlayer - 1];
     
     if (card.type === 'danger') {
         currentPlayer.redCards++;
@@ -181,29 +212,21 @@ function renderGrid() {
     
     // Cambiar de turno
     setTimeout(() => {
-        gameState.currentPlayer = (gameState.currentPlayer % gameState.numPlayers) +
+        gameState.currentPlayer = (gameState.currentPlayer % gameState.numPlayers) + 1;
+        updatePlayerTurn();
+    }, 500);
+}
+
+function updateGameInfo() {
+    const remaining = gameState.totalCards - gameState.flippedCards;
+    const dangerRemaining = gameState.cards.filter(c => c.type === 'danger' && !c.flipped).length;
+    const safeRemaining = gameState.cards.filter(c => c.type === 'safe' && !c.flipped).length;
     
-    // Update current player's stats
-    const currentPlayerStats = gameState.currentPlayer === 1 ? gameState.player1 : gameState.player2;
+    remainingCardsEl.textContent = remaining;
+    dangerCountEl.textContent = dangerRemaining;
+    safeCountEl.textContent = safeRemaining;
     
-    if (card.type === 'danger') {
-        currentPlayerStats.redCards++;
-    } else {
-        currentPlayerStats.greenCards++;
-    }
-    
-    updateGameInfo();
-    
-    // Check if all cards are flipped
-    if (gameState.flippedCards === gameState.totalCards) {
-        setTimeout(() => {
-            // Determinar ganador por quien tiene menos cartas rojas
-            if (gameState.player1.redCards < gameState.player2.redCards) {
-                gameOver('player1');
-            } else if (gameState.player2.redCards < gameState.player1.redCards) {
-                gameOver('player2');
-            } else {
-                // Empate
+    // Update player stats
     gameState.players.forEach(player => {
         const redEl = document.getElementById(`player${player.id}Red`);
         const greenEl = document.getElementById(`player${player.id}Green`);
@@ -275,36 +298,9 @@ function determineWinner() {
     }, 500);
 }
 
-function gameOver(result) {
-    // Esta función se mantiene por compatibilidad pero ya no se usa
-    determineWinner(
-function gameOver(result) {
-    gameState.gameOver = true;
-    
-    if (result === 'player1') {
-        resultTitle.textContent = '¡Jugador 1 Ganó! 🎉';
-        resultTitle.className = 'win';
-        resultMessage.textContent = `¡Jugador 1 levantó menos cartas rojas! Jugador 1: ${gameState.player1.redCards} rojas vs Jugador 2: ${gameState.player2.redCards} rojas. ¡Jugador 2 bebe!`;
-        revealAllCards();
-    } else if (result === 'player2') {
-        resultTitle.textContent = '¡Jugador 2 Ganó! 🎉';
-        resultTitle.className = 'win';
-        resultMessage.textContent = `¡Jugador 2 levantó menos cartas rojas! Jugador 1: ${gameState.player1.redCards} rojas vs Jugador 2: ${gameState.player2.redCards} rojas. ¡Jugador 1 bebe!`;
-        revealAllCards();
-    } else if (result === 'tie') {
-       Clear players container
-    playersContainer.innerHTML = '';
-    
-    gameState = {
-        gridSize: gameState.gridSize,
-        dangerCards: parseInt(dangerCardsInput.value),
-        totalCards: gameState.gridSize * gameState.gridSize,
-        flippedCards: 0,
-        cards: [],
-        gameOver: false,
-        currentPlayer: 1,
-        numPlayers: parseInt(numPlayersInput.value),
-        players: []
+function revealAllCards() {
+    const cardElements = document.querySelectorAll('.card');
+    cardElements.forEach((cardEl, index) => {
         if (!gameState.cards[index].flipped) {
             setTimeout(() => {
                 cardEl.classList.add('flipped');
@@ -318,9 +314,8 @@ function resetToSetup() {
     gamePanel.classList.add('hidden');
     resultModal.classList.add('hidden');
     
-    // Remove active player indicators
-    player1Card.classList.remove('active-player');
-    player2Card.classList.remove('active-player');
+    // Clear players container
+    playersContainer.innerHTML = '';
     
     gameState = {
         gridSize: gameState.gridSize,
@@ -330,8 +325,8 @@ function resetToSetup() {
         cards: [],
         gameOver: false,
         currentPlayer: 1,
-        player1: { redCards: 0, greenCards: 0 },
-        player2: { redCards: 0, greenCards: 0 }
+        numPlayers: parseInt(numPlayersInput.value),
+        players: []
     };
 }
 
