@@ -7,8 +7,8 @@ let gameState = {
     cards: [],
     gameOver: false,
     currentPlayer: 1,
-    player1: { redCards: 0, greenCards: 0 },
-    player2: { redCards: 0, greenCards: 0 }
+    numPlayers: 2,
+    players: []
 };
 
 // DOM Elements
@@ -26,14 +26,8 @@ const resultMessage = document.getElementById('resultMessage');
 const remainingCardsEl = document.getElementById('remainingCards');
 const dangerCountEl = document.getElementById('dangerCount');
 const safeCountEl = document.getElementById('safeCount');
-
-// Player elements
-const player1Card = document.getElementById('player1Card');
-const player2Card = document.getElementById('player2Card');
-const player1RedEl = document.getElementById('player1Red');
-const player1GreenEl = document.getElementById('player1Green');
-const player2RedEl = document.getElementById('player2Red');
-const player2GreenEl = document.getElementById('player2Green');
+const numPlayersInput = document.getElementById('numPlayers');
+const playersContainer = document.getElementById('playersContainer');
 
 // Size buttons
 const sizeBtns = document.querySelectorAll('.size-btn');
@@ -68,6 +62,15 @@ dangerCardsInput.addEventListener('input', () => {
     }
 });
 
+numPlayersInput.addEventListener('input', () => {
+    if (parseInt(numPlayersInput.value) > 16) {
+        numPlayersInput.value = 16;
+    }
+    if (parseInt(numPlayersInput.value) < 2) {
+        numPlayersInput.value = 2;
+    }
+});
+
 startGameBtn.addEventListener('click', startGame);
 resetGameBtn.addEventListener('click', resetToSetup);
 playAgainBtn.addEventListener('click', () => {
@@ -82,8 +85,13 @@ function startGame() {
     gameState.flippedCards = 0;
     gameState.gameOver = false;
     gameState.currentPlayer = 1;
-    gameState.player1 = { redCards: 0, greenCards: 0 };
-    gameState.player2 = { redCards: 0, greenCards: 0 };
+    gameState.numPlayers = parseInt(numPlayersInput.value);
+    
+    // Inicializar jugadores
+    gameState.players = [];
+    for (let i = 1; i <= gameState.numPlayers; i++) {
+        gameState.players.push({ id: i, redCards: 0, greenCards: 0 });
+    }
     
     // Generate cards array
     gameState.cards = generateCards();
@@ -92,12 +100,38 @@ function startGame() {
     setupPanel.classList.add('hidden');
     gamePanel.classList.remove('hidden');
     
+    // Generar tarjetas de jugadores
+    renderPlayers();
+    
     // Update info
     updateGameInfo();
     updatePlayerTurn();
     
     // Render grid
     renderGrid();
+}
+
+function renderPlayers() {
+    playersContainer.innerHTML = '';
+    gameState.players.forEach(player => {
+        const playerCard = document.createElement('div');
+        playerCard.className = 'player-card';
+        playerCard.id = `player${player.id}Card`;
+        playerCard.innerHTML = `
+            <h3>Jugador ${player.id}</h3>
+            <div class="player-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Cartas rojas:</span>
+                    <span id="player${player.id}Red" class="stat-value danger">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Cartas verdes:</span>
+                    <span id="player${player.id}Green" class="stat-value safe">0</span>
+                </div>
+            </div>
+        `;
+        playersContainer.appendChild(playerCard);
+    });
 }
 
 function generateCards() {
@@ -127,35 +161,27 @@ function shuffleArray(array) {
 }
 
 function renderGrid() {
-    grid.innerHTML = '';
-    grid.className = `grid size-${gameState.gridSize}`;
+    grid.innerHTML = '' = gameState.players[gameState.currentPlayer - 1];
     
-    gameState.cards.forEach((card, index) => {
-        const cardEl = document.createElement('div');
-        cardEl.className = 'card';
-        cardEl.innerHTML = `
-            <div class="card-inner">
-                <div class="card-front">?</div>
-                <div class="card-back ${card.type}">
-                    ${card.type === 'danger' ? '💀' : '✨'}
-                </div>
-            </div>
-        `;
-        
-        cardEl.addEventListener('click', () => flipCard(index, cardEl));
-        grid.appendChild(cardEl);
-    });
-}
-
-function flipCard(index, cardEl) {
-    if (gameState.gameOver || gameState.cards[index].flipped || cardEl.classList.contains('flipped')) {
+    if (card.type === 'danger') {
+        currentPlayer.redCards++;
+    } else {
+        currentPlayer.greenCards++;
+    }
+    
+    updateGameInfo();
+    
+    // Check if all cards are flipped
+    if (gameState.flippedCards === gameState.totalCards) {
+        setTimeout(() => {
+            determineWinner();
+        }, 800);
         return;
     }
     
-    const card = gameState.cards[index];
-    card.flipped = true;
-    cardEl.classList.add('flipped');
-    gameState.flippedCards++;
+    // Cambiar de turno
+    setTimeout(() => {
+        gameState.currentPlayer = (gameState.currentPlayer % gameState.numPlayers) +
     
     // Update current player's stats
     const currentPlayerStats = gameState.currentPlayer === 1 ? gameState.player1 : gameState.player2;
@@ -178,45 +204,80 @@ function flipCard(index, cardEl) {
                 gameOver('player2');
             } else {
                 // Empate
-                gameOver('tie');
-            }
-        }, 800);
-        return;
-    }
-    
-    // Cambiar de turno
-    setTimeout(() => {
-        gameState.currentPlayer = gameState.currentPlayer === 1 ? 2 : 1;
-        updatePlayerTurn();
-    }, 500);
-}
-
-function updateGameInfo() {
-    const remaining = gameState.totalCards - gameState.flippedCards;
-    const dangerRemaining = gameState.cards.filter(c => c.type === 'danger' && !c.flipped).length;
-    const safeRemaining = gameState.cards.filter(c => c.type === 'safe' && !c.flipped).length;
-    
-    remainingCardsEl.textContent = remaining;
-    dangerCountEl.textContent = dangerRemaining;
-    safeCountEl.textContent = safeRemaining;
-    
-    // Update player stats
-    player1RedEl.textContent = gameState.player1.redCards;
-    player1GreenEl.textContent = gameState.player1.greenCards;
-    player2RedEl.textContent = gameState.player2.redCards;
-    player2GreenEl.textContent = gameState.player2.greenCards;
+    gameState.players.forEach(player => {
+        const redEl = document.getElementById(`player${player.id}Red`);
+        const greenEl = document.getElementById(`player${player.id}Green`);
+        if (redEl) redEl.textContent = player.redCards;
+        if (greenEl) greenEl.textContent = player.greenCards;
+    });
 }
 
 function updatePlayerTurn() {
-    if (gameState.currentPlayer === 1) {
-        player1Card.classList.add('active-player');
-        player2Card.classList.remove('active-player');
-    } else {
-        player2Card.classList.add('active-player');
-        player1Card.classList.remove('active-player');
-    }
+    gameState.players.forEach(player => {
+        const playerCard = document.getElementById(`player${player.id}Card`);
+        if (playerCard) {
+            if (player.id === gameState.currentPlayer) {
+                playerCard.classList.add('active-player');
+            } else {
+                playerCard.classList.remove('active-player');
+            }
+        }
+    });
 }
 
+function determineWinner() {
+    gameState.gameOver = true;
+    
+    // Encontrar el jugador con menos cartas rojas
+    let minRedCards = Math.min(...gameState.players.map(p => p.redCards));
+    let winners = gameState.players.filter(p => p.redCards === minRedCards);
+    
+    if (winners.length === 1) {
+        // Un solo ganador
+        const winner = winners[0];
+        const losers = gameState.players.filter(p => p.id !== winner.id);
+        
+        resultTitle.textContent = `¡Jugador ${winner.id} Ganó! 🎉`;
+        resultTitle.className = 'win';
+        
+        let message = `¡Jugador ${winner.id} levantó solo ${winner.redCards} carta${winner.redCards !== 1 ? 's' : ''} roja${winner.redCards !== 1 ? 's' : ''}!\n\n`;
+        message += `Los demás jugadores beben:\n`;
+        losers.forEach(loser => {
+            message += `Jugador ${loser.id}: ${loser.redCards} cartas rojas\n`;
+        });
+        
+        resultMessage.textContent = message;
+    } else {
+        // Empate entre varios jugadores
+        const winnerIds = winners.map(w => w.id).join(', ');
+        resultTitle.textContent = '¡Empate! 🤝';
+        resultTitle.className = 'win';
+        
+        let message = `¡Los jugadores ${winnerIds} empataron con ${minRedCards} carta${minRedCards !== 1 ? 's' : ''} roja${minRedCards !== 1 ? 's' : ''} cada uno!\n\n`;
+        
+        const losers = gameState.players.filter(p => p.redCards > minRedCards);
+        if (losers.length > 0) {
+            message += `Los demás jugadores beben:\n`;
+            losers.forEach(loser => {
+                message += `Jugador ${loser.id}: ${loser.redCards} cartas rojas\n`;
+            });
+        } else {
+            message += '¡Todos empatan! ¡Todos beben!';
+        }
+        
+        resultMessage.textContent = message;
+    }
+    
+    revealAllCards();
+    
+    setTimeout(() => {
+        resultModal.classList.remove('hidden');
+    }, 500);
+}
+
+function gameOver(result) {
+    // Esta función se mantiene por compatibilidad pero ya no se usa
+    determineWinner(
 function gameOver(result) {
     gameState.gameOver = true;
     
@@ -231,20 +292,19 @@ function gameOver(result) {
         resultMessage.textContent = `¡Jugador 2 levantó menos cartas rojas! Jugador 1: ${gameState.player1.redCards} rojas vs Jugador 2: ${gameState.player2.redCards} rojas. ¡Jugador 1 bebe!`;
         revealAllCards();
     } else if (result === 'tie') {
-        resultTitle.textContent = '¡Empate! 🤝';
-        resultTitle.className = 'win';
-        resultMessage.textContent = `¡Ambos jugadores levantaron ${gameState.player1.redCards} cartas rojas! ¡Los dos beben!`;
-        revealAllCards();
-    }
+       Clear players container
+    playersContainer.innerHTML = '';
     
-    setTimeout(() => {
-        resultModal.classList.remove('hidden');
-    }, 500);
-}
-
-function revealAllCards() {
-    const cardElements = document.querySelectorAll('.card');
-    cardElements.forEach((cardEl, index) => {
+    gameState = {
+        gridSize: gameState.gridSize,
+        dangerCards: parseInt(dangerCardsInput.value),
+        totalCards: gameState.gridSize * gameState.gridSize,
+        flippedCards: 0,
+        cards: [],
+        gameOver: false,
+        currentPlayer: 1,
+        numPlayers: parseInt(numPlayersInput.value),
+        players: []
         if (!gameState.cards[index].flipped) {
             setTimeout(() => {
                 cardEl.classList.add('flipped');

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chupito gratuito</title>
+    <title>Juego de Supervivencia - Chupito Gratuito</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rancho&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -15,7 +15,7 @@
         <div class="nav-container">
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="index.html" class="nav-link active">Preguntas</a>
+                    <a href="index.html" class="nav-link active">Supervivencia</a>
                 </li>
                 <li class="nav-item">
                     <a href="game.html" class="nav-link">Juego de Cartas</a>
@@ -26,24 +26,88 @@
                 <li class="nav-item">
                     <a href="challenges.html" class="nav-link">Retos y Castigos</a>
                 </li>
+                <li class="nav-item">
+                    <a href="gacha.html" class="nav-link">Gacha</a>
+                </li>
+                <li class="nav-item">
+                    <a href="tournament.html" class="nav-link">Torneos</a>
+                </li>
             </ul>
         </div>
     </nav>
     
-    <div class="container">
-        <h1><span class="beer-icon">&#127866;</span> Chupito Gratuito <span class="beer-icon">&#127866;</span></h1>
-        
-        <div class="question-box">
-            <p id="question">Presiona el botón para generar una pregunta</p>
+    <div class="survival-container">
+        <div class="game-header">
+            <h1 class="game-title">💀 Juego de Supervivencia 💀</h1>
         </div>
-        
-        <div class="answer-box" id="answerBox">
-            <p id="answer"></p>
+
+        <!-- Pantalla de configuración -->
+        <div id="setupScreen" class="setup-screen">
+            <div class="setup-box">
+                <h2>Configurar Juego</h2>
+                
+                <div class="config-group">
+                    <label>Número de Jugadores:</label>
+                    <div class="player-buttons">
+                        <button class="player-btn" data-players="2">2</button>
+                        <button class="player-btn" data-players="3">3</button>
+                        <button class="player-btn active" data-players="4">4</button>
+                        <button class="player-btn" data-players="5">5</button>
+                        <button class="player-btn" data-players="6">6</button>
+                        <button class="player-btn" data-players="7">7</button>
+                        <button class="player-btn" data-players="8">8</button>
+                        <button class="player-btn" data-players="9">9</button>
+                        <button class="player-btn" data-players="10">10</button>
+                        <button class="player-btn" data-players="11">11</button>
+                        <button class="player-btn" data-players="12">12</button>
+                        <button class="player-btn" data-players="13">13</button>
+                        <button class="player-btn" data-players="14">14</button>
+                        <button class="player-btn" data-players="15">15</button>
+                        <button class="player-btn" data-players="16">16</button>
+                    </div>
+                </div>
+
+                <div class="config-group">
+                    <label>Tamaño de Cuadrícula:</label>
+                    <div class="grid-buttons">
+                        <button class="grid-btn active" data-size="9">9x9</button>
+                        <button class="grid-btn" data-size="11">11x11</button>
+                        <button class="grid-btn" data-size="13">13x13</button>
+                    </div>
+                </div>
+
+                <button id="startGameBtn" class="btn btn-start">Comenzar Juego</button>
+            </div>
         </div>
-        
-        <div class="button-container">
-            <button id="generateBtn" class="btn btn-primary">Generar Pregunta</button>
-            <button id="showAnswerBtn" class="btn btn-secondary" disabled>Respuesta</button>
+
+        <!-- Pantalla de juego -->
+        <div id="gameScreen" class="game-screen-container" style="display: none;">
+            <div class="game-info">
+                <div class="turn-indicator">
+                    <h3>Turno de: <span id="currentPlayer" class="player-name">Jugador 1</span></h3>
+                </div>
+                <div class="round-info">
+                    <span>Ronda: <strong id="roundNumber">1</strong></span>
+                </div>
+                <div class="players-alive">
+                    <span>Jugadores vivos: <strong id="playersAlive">4</strong></span>
+                </div>
+            </div>
+
+            <div id="gridContainer" class="grid-container"></div>
+
+            <div class="selection-info">
+                <p id="selectionMessage">Selecciona una casilla para tu turno</p>
+            </div>
+        </div>
+
+        <!-- Pantalla de fin de juego -->
+        <div id="gameOverScreen" class="game-over-screen" style="display: none;">
+            <div class="game-over-box">
+                <h2 id="gameOverTitle">¡Juego Terminado!</h2>
+                <div id="winnersContainer" class="winners-container"></div>
+                <button id="playAgainBtn" class="btn btn-restart">Jugar de Nuevo</button>
+            </div>
         </div>
     </div>
     

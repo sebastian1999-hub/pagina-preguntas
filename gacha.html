@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gacha System - Chupito Gratuito</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rancho&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="gacha.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Runner Game</a>
+                </li>
+                <li class="nav-item">
+                    <a href="game.html" class="nav-link">Juego de Cartas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="memory.html" class="nav-link">Juego de Parejas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="challenges.html" class="nav-link">Retos y Castigos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="gacha.html" class="nav-link active">Gacha</a>
+                </li>
+                <li class="nav-item">
+                    <a href="tournament.html" class="nav-link">Torneos</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="gacha-layout">
+        <!-- Barra lateral con rarezas -->
+        <aside class="rarity-sidebar">
+            <h2>&#11088; Rarezas</h2>
+            <div class="rarity-list">
+                <div class="rarity-item legendary">
+                    <div class="rarity-header">
+                        <span class="rarity-icon">&#128081;</span>
+                        <span class="rarity-name">Legendario</span>
+                    </div>
+                    <div class="rarity-chance">1%</div>
+                    <div class="rarity-description">Retos extremos y premios épicos</div>
+                </div>
+                
+                <div class="rarity-item epic">
+                    <div class="rarity-header">
+                        <span class="rarity-icon">&#128142;</span>
+                        <span class="rarity-name">Épico</span>
+                    </div>
+                    <div class="rarity-chance">5%</div>
+                    <div class="rarity-description">Desafíos muy difíciles</div>
+                </div>
+                
+                <div class="rarity-item rare">
+                    <div class="rarity-header">
+                        <span class="rarity-icon">&#128171;</span>
+                        <span class="rarity-name">Raro</span>
+                    </div>
+                    <div class="rarity-chance">14%</div>
+                    <div class="rarity-description">Retos interesantes</div>
+                </div>
+                
+                <div class="rarity-item uncommon">
+                    <div class="rarity-header">
+                        <span class="rarity-icon">&#128165;</span>
+                        <span class="rarity-name">Poco Común</span>
+                    </div>
+                    <div class="rarity-chance">30%</div>
+                    <div class="rarity-description">Desafíos moderados</div>
+                </div>
+                
+                <div class="rarity-item common">
+                    <div class="rarity-header">
+                        <span class="rarity-icon">&#9734;</span>
+                        <span class="rarity-name">Común</span>
+                    </div>
+                    <div class="rarity-chance">50%</div>
+                    <div class="rarity-description">Retos básicos y sencillos</div>
+                </div>
+            </div>
+            
+            <div class="stats-section">
+                <h3>&#128200; Estadísticas</h3>
+                <div class="stat-item">
+                    <span>Total sacado:</span>
+                    <span id="totalPulls">0</span>
+                </div>
+                <div class="stat-item">
+                    <span>Legendarios:</span>
+                    <span id="legendaryCount">0</span>
+                </div>
+                <div class="stat-item">
+                    <span>Épicos:</span>
+                    <span id="epicCount">0</span>
+                </div>
+                <div class="stat-item">
+                    <span>Raros:</span>
+                    <span id="rareCount">0</span>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Contenido principal -->
+        <main class="gacha-main">
+            <h1 class="gacha-title">&#127920; Sistema Gacha &#127920;</h1>
+            
+            <div class="gacha-container">
+                <div class="gacha-box" id="gachaBox">
+                    <div class="gacha-placeholder">
+                        <span class="placeholder-icon">❓</span>
+                        <p>Presiona el botón para sacar un item</p>
+                    </div>
+                </div>
+                
+                <div class="result-card" id="resultCard" style="display: none;">
+                    <div class="result-rarity" id="resultRarity"></div>
+                    <img id="resultImage" class="result-image" src="" alt="">
+                </div>
+                
+                <div class="button-container">
+                    <button id="pullBtn" class="btn btn-gacha">
+                        <span>&#127922;</span> Sacar Item
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="gacha.js"></script>
+</body>
+</html>

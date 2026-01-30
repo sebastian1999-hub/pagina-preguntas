@@ -16,7 +16,7 @@
         <div class="nav-container">
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="index.html" class="nav-link">Preguntas</a>
+                    <a href="index.html" class="nav-link">Runner Game</a>
                 </li>
                 <li class="nav-item">
                     <a href="game.html" class="nav-link active">Juego de Cartas</a>
@@ -27,6 +27,12 @@
                 <li class="nav-item">
                     <a href="challenges.html" class="nav-link">Retos y Castigos</a>
                 </li>
+                <li class="nav-item">
+                    <a href="gacha.html" class="nav-link">Gacha</a>
+                </li>
+                <li class="nav-item">
+                    <a href="tournament.html" class="nav-link">Torneos</a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -36,6 +42,14 @@
         
         <!-- Panel de Configuración -->
         <div id="setupPanel" class="setup-panel">
+            <div class="config-group">
+                <label for="numPlayers">Número de Jugadores:</label>
+                <div class="danger-input-group">
+                    <input type="number" id="numPlayers" min="2" max="16" value="2">
+                    <span class="max-cards-info">De 2 a 16 jugadores</span>
+                </div>
+            </div>
+            
             <div class="config-group">
                 <label for="gridSize">Tamaño de la Cuadrícula:</label>
                 <div class="button-group">
@@ -60,33 +74,8 @@
         <!-- Panel de Juego -->
         <div id="gamePanel" class="game-panel hidden">
             <!-- Marcadores de Jugadores -->
-            <div class="players-info">
-                <div class="player-card" id="player1Card">
-                    <h3>Jugador 1</h3>
-                    <div class="player-stats">
-                        <div class="stat-item">
-                            <span class="stat-label">Cartas rojas:</span>
-                            <span id="player1Red" class="stat-value danger">0</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Cartas verdes:</span>
-                            <span id="player1Green" class="stat-value safe">0</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="player-card" id="player2Card">
-                    <h3>Jugador 2</h3>
-                    <div class="player-stats">
-                        <div class="stat-item">
-                            <span class="stat-label">Cartas rojas:</span>
-                            <span id="player2Red" class="stat-value danger">0</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Cartas verdes:</span>
-                            <span id="player2Green" class="stat-value safe">0</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="players-info" id="playersContainer">
+                <!-- Los jugadores se generarán dinámicamente con JavaScript -->
             </div>
             
             <div class="game-info">

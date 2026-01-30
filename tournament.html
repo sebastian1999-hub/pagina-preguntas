@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Torneos - Chupito Gratuito</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rancho&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="tournament.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Supervivencia</a>
+                </li>
+                <li class="nav-item">
+                    <a href="game.html" class="nav-link">Juego de Cartas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="memory.html" class="nav-link">Juego de Parejas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="challenges.html" class="nav-link">Retos y Castigos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="gacha.html" class="nav-link">Gacha</a>
+                </li>
+                <li class="nav-item">
+                    <a href="tournament.html" class="nav-link active">Torneos</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="tournament-container">
+        <h1 class="tournament-title">🏆 Gestor de Torneos 🏆</h1>
+        
+        <!-- Panel de Configuración -->
+        <div id="setupPanel" class="setup-panel">
+            <div class="config-section">
+                <h2>Configuración del Torneo</h2>
+                
+                <div class="config-group">
+                    <label>Formato del Torneo:</label>
+                    <div class="button-group">
+                        <button class="format-btn active" data-format="eliminatorio">Eliminatorio</button>
+                        <button class="format-btn" data-format="suizo">Sistema Suizo</button>
+                    </div>
+                </div>
+                
+                <div class="config-group">
+                    <label>Tipo de Competición:</label>
+                    <div class="button-group">
+                        <button class="type-btn active" data-type="individual">Individual</button>
+                        <button class="type-btn" data-type="parejas">Parejas</button>
+                        <button class="type-btn" data-type="trios">Tríos</button>
+                    </div>
+                </div>
+                
+                <div class="config-group" id="suizoRoundsGroup" style="display: none;">
+                    <label>Número de Rondas (Suizo):</label>
+                    <input type="number" id="suizoRounds" min="3" max="10" value="5">
+                </div>
+            </div>
+            
+            <div class="participants-section">
+                <h2>Participantes</h2>
+                <div class="input-group">
+                    <input type="text" id="participantInput" placeholder="Nombre del participante">
+                    <button id="addParticipantBtn" class="btn btn-add">Agregar</button>
+                </div>
+                <div id="participantsList" class="participants-list"></div>
+                <div class="participants-actions">
+                    <button id="clearAllBtn" class="btn btn-secondary">Limpiar Todo</button>
+                    <button id="startTournamentBtn" class="btn btn-primary">Iniciar Torneo</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Panel del Torneo -->
+        <div id="tournamentPanel" class="tournament-panel" style="display: none;">
+            <div class="tournament-header">
+                <h2 id="tournamentInfo"></h2>
+                <button id="backToSetupBtn" class="btn btn-secondary">Volver a Configuración</button>
+            </div>
+            
+            <!-- Vista Eliminatorio -->
+            <div id="eliminatoryView" class="tournament-view" style="display: none;">
+                <div class="bracket-container" id="bracketContainer"></div>
+            </div>
+            
+            <!-- Vista Suizo -->
+            <div id="suizoView" class="tournament-view" style="display: none;">
+                <div class="suizo-header">
+                    <h3>Ronda <span id="currentRound">1</span> de <span id="totalRounds">5</span></h3>
+                </div>
+                <div class="matches-container" id="matchesContainer"></div>
+                <div class="suizo-actions">
+                    <button id="nextRoundBtn" class="btn btn-primary" style="display: none;">Siguiente Ronda</button>
+                </div>
+                <div class="standings-container">
+                    <h3>Clasificación</h3>
+                    <div id="standingsTable"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="tournament.js"></script>
+</body>
+</html>
