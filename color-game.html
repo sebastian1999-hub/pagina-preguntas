@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuentra el Color Diferente</title>
+    <link rel="stylesheet" href="color-game.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎨 Encuentra el Color Diferente</h1>
+            <button class="back-btn" onclick="window.location.href='index.html'">← Volver al Inicio</button>
+        </header>
+
+        <div class="game-info">
+            <div class="info-item">
+                <span class="label">Nivel:</span>
+                <span class="value" id="level">1</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Puntuación:</span>
+                <span class="value" id="score">0</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Mejor Racha:</span>
+                <span class="value" id="best-streak">0</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Tiempo:</span>
+                <span class="value" id="timer">0s</span>
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <div id="color-grid" class="color-grid"></div>
+        </div>
+
+        <div class="controls">
+            <button id="restart-btn" class="btn btn-restart">🔄 Reiniciar</button>
+            <button id="pause-btn" class="btn btn-pause">⏸️ Pausar</button>
+        </div>
+
+        <div class="instructions">
+            <h3>📋 Instrucciones</h3>
+            <ul>
+                <li>Encuentra y haz clic en el cuadrado con el color diferente</li>
+                <li>Cada nivel aumenta la dificultad añadiendo más cuadrados</li>
+                <li>La diferencia de color se vuelve más sutil a medida que avanzas</li>
+                <li>¡Intenta alcanzar el nivel más alto posible!</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="game-over-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>😢 ¡Juego Terminado!</h2>
+            <p>Nivel alcanzado: <span id="final-level"></span></p>
+            <p>Puntuación final: <span id="final-score"></span></p>
+            <p>Tiempo total: <span id="final-time"></span></p>
+            <button id="play-again-btn" class="btn btn-primary">🎮 Jugar de Nuevo</button>
+        </div>
+    </div>
+
+    <script src="color-game.js"></script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gestor de torneos eliminatorios y sistema suizo">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Torneos">
+    
+    <title>Gestor de Torneos - PWA</title>
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="/tournament-manifest.json">
+    
+    <!-- Iconos -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rancho&display=swap" rel="stylesheet">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="tournament.css">
+    
+    <style>
+        /* Estilos adicionales para PWA */
+        body {
+            margin: 0;
+            padding: 0;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        .pwa-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .pwa-title {
+            font-size: 24px;
+            margin: 0;
+        }
+        
+        .install-btn {
+            background: rgba(255, 255, 255, 0.3);
+            border: 2px solid white;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            display: block;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .install-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .offline-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff5252;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: none;
+            z-index: 9999;
+            font-size: 14px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .online-indicator {
+            background: #4caf50;
+        }
+        
+        /* Ocultar navbar original en PWA */
+        .navbar {
+            display: none;
+        }
+        
+        .tournament-container {
+            padding-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header personalizado para PWA -->
+    <div class="pwa-header">📲 
+        <button class="install-btn" id="installBtn">Instalar App</button>
+    </div>
+    
+    <!-- Indicador de conexión -->
+    <div class="offline-indicator" id="connectionStatus">Sin conexión</div>
+    
+    <div class="tournament-container">
+        <h1 class="tournament-title">🏆 Gestor de Torneos 🏆</h1>
+        
+        <!-- Panel de Configuración -->
+        <div id="setupPanel" class="setup-panel">
+            <div class="config-section">
+                <h2>Configuración del Torneo</h2>
+                
+                <div class="config-group">
+                    <label>Formato del Torneo:</label>
+                    <div class="button-group">
+                        <button class="format-btn active" data-format="eliminatorio">Eliminatorio</button>
+                        <button class="format-btn" data-format="suizo">Sistema Suizo</button>
+                    </div>
+                </div>
+                
+                <div class="config-group">
+                    <label>Tipo de Competición:</label>
+                    <div class="button-group">
+                        <button class="type-btn active" data-type="individual">Individual</button>
+                        <button class="type-btn" data-type="parejas">Parejas</button>
+                        <button class="type-btn" data-type="trios">Tríos</button>
+                    </div>
+                </div>
+                
+                <div class="config-group" id="suizoRoundsGroup" style="display: none;">
+                    <label>Número de Rondas (Suizo):</label>
+                    <input type="number" id="suizoRounds" min="3" max="10" value="5">
+                </div>
+            </div>
+            
+            <div class="participants-section">
+                <h2>Participantes</h2>
+                <div class="input-group">
+                    <input type="text" id="participantInput" placeholder="Nombre del participante">
+                    <button id="addParticipantBtn" class="btn btn-add">Agregar</button>
+                </div>
+                <div id="participantsList" class="participants-list"></div>
+                <div class="participants-actions">
+                    <button id="clearAllBtn" class="btn btn-secondary">Limpiar Todo</button>
+                    <button id="startTournamentBtn" class="btn btn-primary">Iniciar Torneo</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Panel del Torneo -->
+        <div id="tournamentPanel" class="tournament-panel" style="display: none;">
+            <div class="tournament-header">
+                <h2 id="tournamentInfo"></h2>
+                <button id="backToSetupBtn" class="btn btn-secondary">Volver a Configuración</button>
+            </div>
+            
+            <!-- Vista Eliminatorio -->
+            <div id="eliminatoryView" class="tournament-view" style="display: none;">
+                <div class="bracket-container" id="bracketContainer"></div>
+            </div>
+            
+            <!-- Vista Suizo -->
+            <div id="suizoView" class="tournament-view" style="display: none;">
+                <div class="suizo-header">
+                    <h3>Ronda <span id="currentRound">1</span> de <span id="totalRounds">5</span></h3>
+                </div>
+                <div class="matches-container" id="matchesContainer"></div>
+                <div class="suizo-actions">
+                    <button id="nextRoundBtn" class="btn btn-primary" style="display: none;">Siguiente Ronda</button>
+                </div>
+                <div class="standings-container">
+                    <h3>Clasificación</h3>
+                    <div id="standingsTable"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="tournament.js"></script>
+    
+    <!-- PWA Scripts -->
+    <script>
+        // Registrar Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/tournament-sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registrado:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('Error al registrar Service Worker:', error);
+                    });
+            });
+        }
+        
+        // Instalación de la PWA
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.style.display = 'block';
+        });
+        
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`Usuario ${outcome === 'accepted' ? 'aceptó' : 'rechazó'} instalar`);
+                deferredPrompt = null;
+                installBtn.style.display = 'none';
+            } else {
+                // Mostrar instrucciones manuales
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+                const isAndroid = /Android/.test(navigator.userAgent);
+                
+                let mensaje = '';
+                if (isIOS) {
+                    mensaje = '📱 Para instalar en iPhone/iPad:\n\n1. Toca el botón Compartir (□↑)\n2. Selecciona "Añadir a pantalla de inicio"\n3. Toca "Añadir"';
+                } else if (isAndroid) {
+                    mensaje = '📱 Para instalar en Android:\n\n1. Toca el menú (⋮) arriba a la derecha\n2. Selecciona "Instalar aplicación" o "Añadir a pantalla de inicio"\n\nO espera el banner automático';
+                } else {
+                    mensaje = '📱 Para instalar esta app:\n\n1. Busca la opción "Instalar" en el menú de tu navegador\n2. O accede desde HTTPS para instalación automática';
+                }
+                
+                alert(mensaje);
+            }
+        });
+        
+        // Detectar cuando se instala
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA instalada exitosamente');
+            installBtn.style.display = 'none';
+        });
+        
+        // Monitorear estado de conexión
+        const connectionStatus = document.getElementById('connectionStatus');
+        
+        function updateConnectionStatus() {
+            if (navigator.onLine) {
+                connectionStatus.textContent = 'Conectado';
+                connectionStatus.classList.add('online-indicator');
+                connectionStatus.style.display = 'block';
+                setTimeout(() => {
+                    connectionStatus.style.display = 'none';
+                }, 2000);
+            } else {
+                connectionStatus.textContent = 'Sin conexión - Modo Offline';
+                connectionStatus.classList.remove('online-indicator');
+                connectionStatus.style.display = 'block';
+            }
+        }
+        
+        window.addEventListener('online', updateConnectionStatus);
+        window.addEventListener('offline', updateConnectionStatus);
+        
+        // Prevenir zoom en dispositivos móviles
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>

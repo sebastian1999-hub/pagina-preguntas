@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Generador de Iconos</title>
+</head>
+<body>
+    <canvas id="canvas192" width="192" height="192" style="display: none;"></canvas>
+    <canvas id="canvas512" width="512" height="512" style="display: none;"></canvas>
+    
+    <script>
+        // Generar icono de 192x192
+        const canvas192 = document.getElementById('canvas192');
+        const ctx192 = canvas192.getContext('2d');
+        
+        // Fondo degradado
+        const gradient192 = ctx192.createLinearGradient(0, 0, 192, 192);
+        gradient192.addColorStop(0, '#667eea');
+        gradient192.addColorStop(1, '#764ba2');
+        ctx192.fillStyle = gradient192;
+        ctx192.fillRect(0, 0, 192, 192);
+        
+        // Emoji de trofeo
+        ctx192.font = 'bold 120px Arial';
+        ctx192.textAlign = 'center';
+        ctx192.textBaseline = 'middle';
+        ctx192.fillText('🏆', 96, 96);
+        
+        // Generar icono de 512x512
+        const canvas512 = document.getElementById('canvas512');
+        const ctx512 = canvas512.getContext('2d');
+        
+        const gradient512 = ctx512.createLinearGradient(0, 0, 512, 512);
+        gradient512.addColorStop(0, '#667eea');
+        gradient512.addColorStop(1, '#764ba2');
+        ctx512.fillStyle = gradient512;
+        ctx512.fillRect(0, 0, 512, 512);
+        
+        ctx512.font = 'bold 320px Arial';
+        ctx512.textAlign = 'center';
+        ctx512.textBaseline = 'middle';
+        ctx512.fillText('🏆', 256, 256);
+        
+        // Descargar iconos
+        setTimeout(() => {
+            // Icono 192
+            canvas192.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'icon-192.png';
+                a.click();
+            });
+            
+            // Icono 512
+            setTimeout(() => {
+                canvas512.toBlob(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'icon-512.png';
+                    a.click();
+                });
+            }, 1000);
+        }, 500);
+    </script>
+</body>
+</html>

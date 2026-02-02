@@ -1,0 +1,594 @@
+@import url('https://fonts.googleapis.com/css2?family=Rancho&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Rancho', cursive;
+}
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    margin: 0;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.nav-link.active {
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid white;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+}
+
+body > .container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 30px;
+    margin: 20px auto;
+    width: calc(100% - 40px);
+    max-width: 800px;
+}
+
+.container {
+    background: white;
+    border-radius: 20px;
+    padding: 30px 20px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    flex: 1;
+}
+
+h1 {
+    text-align: center;
+    color: #764ba2;
+    margin: 0;
+    font-size: 36px;
+    font-family: 'Rancho', cursive;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px 0;
+}
+
+.beer-icon {
+    font-size: 42px;
+    animation: bounce 2s infinite;
+    display: inline-block;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.question-box {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 30px 20px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #667eea;
+}
+
+#question {
+    font-size: 22px;
+    color: #333;
+    text-align: center;
+    line-height: 1.6;
+    font-weight: 600;
+}
+
+.answer-box {
+    background: #e3f2fd;
+    border-radius: 12px;
+    padding: 0;
+    flex: 0 0 auto;
+    min-height: 0;
+    max-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #2196f3;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.4s ease-in-out;
+    transform: translateY(-10px);
+}
+
+.answer-box.show {
+    min-height: 120px;
+    max-height: 300px;
+    opacity: 1;
+    transform: translateY(0);
+    padding: 30px 20px;
+    flex: 1;
+}
+
+#answer {
+    font-size: 20px;
+    color: #1565c0;
+    text-align: center;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.button-container {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 20px 0;
+}
+
+.btn {
+    padding: 18px 35px;
+    font-size: 18px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: #2196f3;
+    color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: #1976d2;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(33, 150, 243, 0.4);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 20px 15px;
+    }
+    
+    h1 {
+        font-size: 28px;
+        gap: 10px;
+        padding: 15px 0;
+    }
+    
+    .beer-icon {
+        font-size: 32px;
+    }
+    
+    #question {
+        font-size: 20px;
+    }
+    
+    #answer {
+        font-size: 18px;
+    }
+    
+    .button-container {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}
+
+/* Estilos para el Juego de Supervivencia */
+.survival-container {
+    min-height: calc(100vh - 60px);
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.game-title {
+    color: white;
+    font-size: 48px;
+    margin: 20px 0;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Pantalla de configuración */
+.setup-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.setup-box {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    width: 100%;
+}
+
+.setup-box h2 {
+    color: #764ba2;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 32px;
+}
+
+.config-group {
+    margin-bottom: 30px;
+}
+
+.config-group label {
+    display: block;
+    color: #333;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.player-buttons, .grid-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.player-btn, .grid-btn {
+    padding: 12px 18px;
+    font-size: 16px;
+    border: 3px solid #667eea;
+    background: white;
+    color: #667eea;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    min-width: 45px;
+}
+
+.player-btn:hover, .grid-btn:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+}
+
+.player-btn.active, .grid-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: #764ba2;
+}
+
+.btn-start {
+    width: 100%;
+    padding: 20px;
+    font-size: 22px;
+    margin-top: 20px;
+}
+
+/* Pantalla de juego */
+.game-screen-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.game-info {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.turn-indicator h3 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.player-name {
+    font-weight: bold;
+}
+
+.round-info, .players-alive {
+    font-size: 18px;
+    color: #555;
+}
+
+/* Cuadrícula */
+.grid-container {
+    display: grid;
+    gap: 5px;
+    background: white;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.grid-cell {
+    aspect-ratio: 1;
+    background: #f8f9fa;
+    border: 2px solid #dee2e6;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.grid-cell:hover:not(.eliminated) {
+    background: #e9ecef;
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.grid-cell.eliminated {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.grid-cell.eliminating {
+    animation: eliminatePulse 1.5s ease-in-out;
+}
+
+@keyframes eliminatePulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    25%, 75% {
+        transform: scale(1.2);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+}
+
+/* Información de selección */
+.selection-info {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.selection-info p {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Pantalla de fin de juego */
+.game-over-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.game-over-box {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+}
+
+.game-over-box h2 {
+    color: #764ba2;
+    margin-bottom: 30px;
+    font-size: 36px;
+}
+
+.winners-container {
+    margin: 30px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.winner {
+    padding: 20px;
+    border-radius: 12px;
+    color: white;
+    font-size: 20px;
+}
+
+.winner h3 {
+    margin: 0 0 10px 0;
+    font-size: 28px;
+}
+
+.winner p {
+    margin: 0;
+    font-size: 18px;
+}
+
+.no-winners {
+    font-size: 24px;
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+.btn-restart {
+    width: 100%;
+    padding: 20px;
+    font-size: 22px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .game-title {
+        font-size: 32px;
+    }
+    
+    .setup-box, .game-over-box {
+        padding: 25px;
+    }
+    
+    .grid-container {
+        gap: 3px;
+        padding: 5px;
+    }
+    
+    .grid-cell {
+        font-size: 12px;
+        border-radius: 4px;
+    }
+    
+    .game-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* Responsive Navbar */
+@media screen and (max-width: 768px) {
+    .navbar {
+        padding: 0;
+    }
+    
+    .nav-container {
+        padding: 0 10px;
+        height: auto;
+        min-height: 60px;
+    }
+    
+    .nav-menu {
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        padding: 10px 0;
+    }
+    
+    .nav-link {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .nav-container {
+        padding: 0 5px;
+    }
+    
+    .nav-menu {
+        gap: 6px;
+        padding: 8px 0;
+    }
+    
+    .nav-link {
+        font-size: 12px;
+        padding: 5px 10px;
+        white-space: nowrap;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .nav-menu {
+        gap: 5px;
+    }
+    
+    .nav-link {
+        font-size: 11px;
+        padding: 4px 8px;
+    }
+}

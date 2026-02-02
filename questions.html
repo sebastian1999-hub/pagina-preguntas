@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas Numéricas - Chupito Gratuito</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rancho&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .questions-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 60px);
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .question-box {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #question {
+            font-size: 1.3em;
+            color: #333;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e3f2fd;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .answer-box.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #answer {
+            font-size: 1.2em;
+            color: #1976d2;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        #generateBtn {
+            background: #667eea;
+            color: white;
+        }
+
+        #generateBtn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        #showAnswerBtn {
+            background: #4caf50;
+            color: white;
+        }
+
+        #showAnswerBtn:hover:not(:disabled) {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        #showAnswerBtn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            #question {
+                font-size: 1.1em;
+            }
+
+            #answer {
+                font-size: 1em;
+            }
+
+            button {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <!-- <li class="nav-item">
+                    <a href="index.html" class="nav-link">Supervivencia</a>
+                </li> -->
+                <li class="nav-item">
+                    <a href="game.html" class="nav-link">Juego de Cartas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="memory.html" class="nav-link">Juego de Parejas</a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a href="challenges.html" class="nav-link">Retos y Castigos</a>
+                </li> -->
+                <!-- <li class="nav-item">
+                    <a href="gacha.html" class="nav-link">Gacha</a>
+                </li> -->
+                <li class="nav-item">
+                    <a href="tournament.html" class="nav-link">Torneos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="questions.html" class="nav-link active">Preguntas</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="questions-wrapper">
+        <div class="container">
+            <h1>🎯 Preguntas Numéricas 🎯</h1>
+            
+            <div class="question-box">
+                <p id="question">Haz clic en "Generar Pregunta" para comenzar</p>
+            </div>
+
+            <div class="answer-box" id="answerBox">
+                <p id="answer"></p>
+            </div>
+
+            <div class="button-container">
+                <button id="generateBtn">Generar Pregunta</button>
+                <button id="showAnswerBtn" disabled>Mostrar Respuesta</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.old.js"></script>
+</body>
+</html>

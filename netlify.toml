@@ -1,0 +1,19 @@
+# Netlify Configuration
+[build]
+  publish = "."
+  
+[[redirects]]
+  from = "/"
+  to = "/tournament-pwa.html"
+  status = 200
+
+[[headers]]
+  for = "/tournament-sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Service-Worker-Allowed = "/"
+
+[[headers]]
+  for = "/tournament-manifest.json"
+  [headers.values]
+    Content-Type = "application/manifest+json"
