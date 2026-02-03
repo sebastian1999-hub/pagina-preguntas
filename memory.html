@@ -41,10 +41,56 @@
     </nav>
     
     <div class="memory-container">
-        <h1 class="memory-title">� Memoria Selectiva 🤔</h1>
+        <h1 class="memory-title">🧠 Memoria Selectiva 🤔</h1>
+        
+        <!-- Panel de Selección de Modo -->
+        <div id="modePanel" class="mode-panel">
+            <h2>Selecciona el Modo de Juego</h2>
+            <div class="mode-buttons">
+                <button id="localModeBtn" class="mode-btn">
+                    <span class="mode-icon">👥</span>
+                    <span class="mode-title">Local</span>
+                    <span class="mode-desc">Juega en el mismo dispositivo</span>
+                </button>
+                <button id="onlineModeBtn" class="mode-btn">
+                    <span class="mode-icon">🌐</span>
+                    <span class="mode-title">Online</span>
+                    <span class="mode-desc">Juega con amigos en línea</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Panel de Sala Online -->
+        <div id="onlinePanel" class="online-panel hidden">
+            <button id="backToModeBtn" class="back-btn">← Volver</button>
+            <h2>Juego Online</h2>
+            <div class="online-options">
+                <div class="online-option">
+                    <h3>Crear Sala</h3>
+                    <button id="createRoomBtn" class="action-btn">Crear Nueva Sala</button>
+                    <div id="roomCodeDisplay" class="room-code-display hidden">
+                        <p>Código de la sala:</p>
+                        <div class="room-code" id="roomCode"></div>
+                        <p class="waiting-text">Esperando jugadores...</p>
+                        <div id="playersInRoom" class="players-list"></div>
+                        <button id="startOnlineGameBtn" class="start-btn hidden">Iniciar Juego</button>
+                    </div>
+                </div>
+                <div class="online-divider">O</div>
+                <div class="online-option">
+                    <h3>Unirse a Sala</h3>
+                    <div class="join-room-form">
+                        <input type="text" id="joinRoomCode" placeholder="Ingresa el código" maxlength="6">
+                        <input type="text" id="playerName" placeholder="Tu nombre" maxlength="20">
+                        <button id="joinRoomBtn" class="action-btn">Unirse</button>
+                    </div>
+                    <div id="joinStatus" class="join-status"></div>
+                </div>
+            </div>
+        </div>
         
         <!-- Panel de Configuración -->
-        <div id="setupPanel" class="setup-panel">
+        <div id="setupPanel" class="setup-panel hidden">
             <div class="config-group">
                 <label>Tamaño de la Cuadrícula:</label>
                 <div class="button-group">
@@ -82,6 +128,9 @@
             </div>
             
             <button id="resetGameBtn" class="reset-btn">Nuevo Juego</button>
+            <div id="onlineStatus" class="online-status hidden">
+                <span id="connectionStatus">🟢 Conectado</span>
+            </div>
         </div>
         
         <!-- Modal de Victoria -->

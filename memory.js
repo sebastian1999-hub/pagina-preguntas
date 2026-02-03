@@ -1,4 +1,8 @@
 // Variables del juego
+let gameMode = null; // 'local' o 'online'
+let isHost = false;
+let roomCode = null;
+let onlinePlayers = [];
 let gridSize = 5;
 let numPlayers = 2;
 let currentPlayer = 0;
@@ -7,6 +11,9 @@ let cards = [];
 let flippedCards = [];
 let matchedPairs = 0;
 let canFlip = true;
+
+// Firebase configuration (usando una simple implementación simulada)
+let roomDatabase = {};
 
 // Emojis para las cartas (suficientes iconos para cubrir cuadrícula 9x9)
 const emojis = [
@@ -20,6 +27,8 @@ const emojis = [
 ];
 
 // Elementos del DOM
+const modePanel = document.getElementById('modePanel');
+const onlinePanel = document.getElementById('onlinePanel');
 const setupPanel = document.getElementById('setupPanel');
 const gamePanel = document.getElementById('gamePanel');
 const memoryGrid = document.getElementById('memoryGrid');
@@ -27,6 +36,23 @@ const playersScore = document.getElementById('playersScore');
 const currentTurnText = document.getElementById('currentTurn');
 const winModal = document.getElementById('winModal');
 const winnerInfo = document.getElementById('winnerInfo');
+
+// Botones de modo
+const localModeBtn = document.getElementById('localModeBtn');
+const onlineModeBtn = document.getElementById('onlineModeBtn');
+const backToModeBtn = document.getElementById('backToModeBtn');
+
+// Elementos de sala online
+const createRoomBtn = document.getElementById('createRoomBtn');
+const joinRoomBtn = document.getElementById('joinRoomBtn');
+const startOnlineGameBtn = document.getElementById('startOnlineGameBtn');
+const roomCodeDisplay = document.getElementById('roomCodeDisplay');
+const roomCodeElement = document.getElementById('roomCode');
+const joinRoomCodeInput = document.getElementById('joinRoomCode');
+const playerNameInput = document.getElementById('playerName');
+const playersInRoom = document.getElementById('playersInRoom');
+const joinStatus = document.getElementById('joinStatus');
+const onlineStatus = document.getElementById('onlineStatus');
 
 // Botones de configuración
 const sizeBtns = document.querySelectorAll('.size-btn');
@@ -38,6 +64,30 @@ const resetGameBtn = document.getElementById('resetGameBtn');
 const playAgainBtn = document.getElementById('playAgainBtn');
 
 // Event Listeners - Configuración
+localModeBtn.addEventListener('click', () => {
+    gameMode = 'local';
+    modePanel.classList.add('hidden');
+    setupPanel.classList.remove('hidden');
+});
+
+onlineModeBtn.addEventListener('click', () => {
+    gameMode = 'online';
+    modePanel.classList.add('hidden');
+    onlinePanel.classList.remove('hidden');
+});
+
+backToModeBtn.addEventListener('click', () => {
+    onlinePanel.classList.add('hidden');
+    modePanel.classList.remove('hidden');
+    roomCodeDisplay.classList.add('hidden');
+    joinStatus.textContent = '';
+    joinStatus.className = 'join-status';
+});
+
+createRoomBtn.addEventListener('click', createRoom);
+joinRoomBtn.addEventListener('click', joinRoom);
+startOnlineGameBtn.addEventListener('click', startOnlineGame);
+
 sizeBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         sizeBtns.forEach(b => b.classList.remove('active'));
@@ -277,7 +327,28 @@ function endGame() {
 function resetGame() {
     winModal.classList.add('hidden');
     gamePanel.classList.add('hidden');
-    setupPanel.classList.remove('hidden');
+    setupPanel.classList.add('hidden');
+    onlinePanel.classList.add('hidden');
+    onlineStatus.classList.add('hidden');
+    modePanel.classList.remove('hidden');
+    
+    // Limpiar sala online
+    if (roomCode && isHost) {
+        delete roomDatabase[roomCode];
+    }
+    roomCode = null;
+    isHost = false;
+    gameMode = null;
+    onlinePlayers = [];
+    
+    // Limpiar campos
+    joinRoomCodeInput.value = '';
+    playerNameInput.value = '';
+    joinStatus.textContent = '';
+    joinStatus.className = 'join-status';
+    roomCodeDisplay.classList.add('hidden');
+    startOnlineGameBtn.classList.add('hidden');
+    createRoomBtn.disabled = false;
     
     // Resetear valores
     gridSize = 5;
@@ -287,6 +358,10 @@ function resetGame() {
     // Resetear botones de tamaño
     sizeBtns.forEach(btn => btn.classList.remove('active'));
     sizeBtns[0].classList.add('active');
+    
+    // Limpiar paneles de espera si existen
+    const waitingPanels = document.querySelectorAll('.setup-panel:not(#setupPanel)');
+    waitingPanels.forEach(panel => panel.remove());
 }
 
 // Función para mezclar un array (Fisher-Yates shuffle)
@@ -297,4 +372,272 @@ function shuffleArray(array) {
         [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
     }
     return newArray;
+}
+
+// ==================== FUNCIONES ONLINE ====================
+
+// Generar código de sala aleatorio
+function generateRoomCode() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let code = '';
+    for (let i = 0; i < 6; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return code;
+}
+
+// Crear una sala online
+function createRoom() {
+    roomCode = generateRoomCode();
+    isHost = true;
+    
+    // Inicializar la sala en la "base de datos" simulada
+    if (!roomDatabase[roomCode]) {
+        roomDatabase[roomCode] = {
+            host: 'Host',
+            players: [{ id: 0, name: 'Host (Tú)', ready: true }],
+            gameStarted: false,
+            gameState: null
+        };
+    }
+    
+    // Mostrar código de sala
+    roomCodeElement.textContent = roomCode;
+    roomCodeDisplay.classList.remove('hidden');
+    createRoomBtn.disabled = true;
+    
+    // Actualizar lista de jugadores
+    updatePlayersInRoom();
+    
+    // Simular que otros jugadores pueden unirse
+    checkRoomUpdates();
+}
+
+// Unirse a una sala
+function joinRoom() {
+    const code = joinRoomCodeInput.value.toUpperCase().trim();
+    const playerName = playerNameInput.value.trim() || 'Jugador';
+    
+    if (code.length !== 6) {
+        showJoinStatus('El código debe tener 6 caracteres', 'error');
+        return;
+    }
+    
+    // Verificar si la sala existe
+    if (!roomDatabase[code]) {
+        showJoinStatus('Sala no encontrada', 'error');
+        return;
+    }
+    
+    if (roomDatabase[code].gameStarted) {
+        showJoinStatus('La partida ya comenzó', 'error');
+        return;
+    }
+    
+    // Unirse a la sala
+    roomCode = code;
+    isHost = false;
+    
+    const playerId = roomDatabase[code].players.length;
+    roomDatabase[code].players.push({
+        id: playerId,
+        name: playerName,
+        ready: true
+    });
+    
+    showJoinStatus('¡Te has unido a la sala!', 'success');
+    
+    // Mostrar información de la sala
+    setTimeout(() => {
+        onlinePanel.classList.add('hidden');
+        roomCodeDisplay.classList.remove('hidden');
+        roomCodeElement.textContent = roomCode;
+        
+        // Crear un mini panel para mostrar que estás en la sala
+        const waitingPanel = document.createElement('div');
+        waitingPanel.className = 'setup-panel';
+        waitingPanel.innerHTML = `
+            <h2>En la sala: ${roomCode}</h2>
+            <p style="color: white;">Esperando a que el host inicie el juego...</p>
+            <div id="playersInRoomJoined" class="players-list" style="background: rgba(255,255,255,0.2); color: white;"></div>
+        `;
+        
+        // Reemplazar el panel online con el de espera
+        document.querySelector('.memory-container').insertBefore(waitingPanel, gamePanel);
+        
+        updatePlayersInRoomJoined();
+        checkRoomUpdatesAsGuest();
+    }, 1000);
+}
+
+// Mostrar estado de unión
+function showJoinStatus(message, type) {
+    joinStatus.textContent = message;
+    joinStatus.className = `join-status ${type}`;
+}
+
+// Actualizar lista de jugadores en sala (host)
+function updatePlayersInRoom() {
+    if (!roomCode || !roomDatabase[roomCode]) return;
+    
+    playersInRoom.innerHTML = '';
+    roomDatabase[roomCode].players.forEach(player => {
+        const playerDiv = document.createElement('div');
+        playerDiv.className = 'player-item';
+        playerDiv.textContent = player.name;
+        playersInRoom.appendChild(playerDiv);
+    });
+    
+    // Mostrar botón de iniciar si hay al menos 2 jugadores
+    if (roomDatabase[roomCode].players.length >= 2) {
+        startOnlineGameBtn.classList.remove('hidden');
+    }
+}
+
+// Actualizar lista de jugadores (invitado)
+function updatePlayersInRoomJoined() {
+    const container = document.getElementById('playersInRoomJoined');
+    if (!container || !roomCode || !roomDatabase[roomCode]) return;
+    
+    container.innerHTML = '';
+    roomDatabase[roomCode].players.forEach(player => {
+        const playerDiv = document.createElement('div');
+        playerDiv.className = 'player-item';
+        playerDiv.textContent = player.name;
+        container.appendChild(playerDiv);
+    });
+}
+
+// Verificar actualizaciones de sala (host)
+function checkRoomUpdates() {
+    if (!isHost || !roomCode) return;
+    
+    const interval = setInterval(() => {
+        if (!roomCode || roomDatabase[roomCode].gameStarted) {
+            clearInterval(interval);
+            return;
+        }
+        updatePlayersInRoom();
+    }, 1000);
+}
+
+// Verificar actualizaciones de sala (invitado)
+function checkRoomUpdatesAsGuest() {
+    if (isHost || !roomCode) return;
+    
+    const interval = setInterval(() => {
+        if (!roomCode) {
+            clearInterval(interval);
+            return;
+        }
+        
+        updatePlayersInRoomJoined();
+        
+        // Si el juego empezó, iniciar
+        if (roomDatabase[roomCode].gameStarted && roomDatabase[roomCode].gameState) {
+            clearInterval(interval);
+            loadOnlineGame(roomDatabase[roomCode].gameState);
+        }
+    }, 1000);
+}
+
+// Iniciar juego online (solo host)
+function startOnlineGame() {
+    if (!isHost || !roomCode) return;
+    
+    roomDatabase[roomCode].gameStarted = true;
+    
+    // Configurar jugadores desde la sala
+    players = roomDatabase[roomCode].players.map(p => ({
+        id: p.id,
+        name: p.name,
+        score: 0
+    }));
+    
+    numPlayers = players.length;
+    currentPlayer = 0;
+    matchedPairs = 0;
+    flippedCards = [];
+    canFlip = true;
+    
+    // Crear estado del juego
+    const gameState = {
+        gridSize: gridSize,
+        players: players,
+        cards: generateCardValues()
+    };
+    
+    roomDatabase[roomCode].gameState = gameState;
+    
+    // Ocultar panel online y mostrar juego
+    onlinePanel.classList.add('hidden');
+    roomCodeDisplay.classList.add('hidden');
+    gamePanel.classList.remove('hidden');
+    onlineStatus.classList.remove('hidden');
+    
+    // Iniciar juego
+    loadOnlineGame(gameState);
+}
+
+// Generar valores de cartas
+function generateCardValues() {
+    const totalCards = gridSize * gridSize;
+    const numPairs = Math.floor(totalCards / 2);
+    
+    const shuffledEmojis = shuffleArray([...emojis]);
+    const selectedEmojis = shuffledEmojis.slice(0, numPairs);
+    
+    let cardValues = [];
+    selectedEmojis.forEach(emoji => {
+        cardValues.push(emoji);
+        cardValues.push(emoji);
+    });
+    
+    const lonelyEmoji = shuffledEmojis[numPairs];
+    cardValues.push(lonelyEmoji);
+    
+    return shuffleArray(cardValues);
+}
+
+// Cargar juego online
+function loadOnlineGame(gameState) {
+    gridSize = gameState.gridSize;
+    players = gameState.players;
+    numPlayers = players.length;
+    
+    // Ocultar cualquier panel de espera
+    const waitingPanels = document.querySelectorAll('.setup-panel');
+    waitingPanels.forEach(panel => panel.classList.add('hidden'));
+    
+    gamePanel.classList.remove('hidden');
+    onlineStatus.classList.remove('hidden');
+    
+    createScoreBoard();
+    createCardsFromValues(gameState.cards);
+    updateTurn();
+}
+
+// Crear cartas desde valores predefinidos
+function createCardsFromValues(cardValues) {
+    memoryGrid.innerHTML = '';
+    memoryGrid.className = `memory-grid size-${gridSize}`;
+    
+    cards = [];
+    cardValues.forEach((value, index) => {
+        const card = document.createElement('div');
+        card.className = 'memory-card';
+        card.dataset.value = value;
+        card.dataset.index = index;
+        card.innerHTML = '?';
+        
+        card.addEventListener('click', () => flipCard(card, value, index));
+        
+        memoryGrid.appendChild(card);
+        cards.push({
+            element: card,
+            value: value,
+            index: index,
+            matched: false
+        });
+    });
 }
