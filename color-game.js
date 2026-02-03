@@ -81,18 +81,67 @@ class ColorGame {
     }
 
     generateDifferentColor(baseColor, difficulty) {
-        const variation = difficulty;
+        // Asegurarse de que la variación sea al menos 10 para que sea visible
+        const variation = Math.max(10, difficulty);
         const newColor = { ...baseColor };
         
-        // Elige aleatoriamente qué canal de color modificar
+        // Intenta cada canal hasta encontrar uno donde se pueda hacer un cambio visible
         const channels = ['r', 'g', 'b'];
-        const channelToModify = channels[Math.floor(Math.random() * channels.length)];
+        let success = false;
         
-        // Modifica el canal seleccionado
-        const direction = Math.random() > 0.5 ? 1 : -1;
-        newColor[channelToModify] = Math.max(0, Math.min(255, 
-            newColor[channelToModify] + (variation * direction)
-        ));
+        // Aleatoriza el orden de los canales
+        const shuffledChannels = channels.sort(() => Math.random() - 0.5);
+        
+        for (const channel of shuffledChannels) {
+            // Intenta aumentar
+            if (baseColor[channel] + variation <= 255) {
+                newColor[channel] = baseColor[channel] + variation;
+                success = true;
+                break;
+            }
+            // Intenta disminuir
+            else if (baseColor[channel] - variation >= 0) {
+                newColor[channel] = baseColor[channel] - variation;
+                success = true;
+                break;
+            }
+        }
+        
+        // Si ningún canal funcionó con la variación completa, usa el máximo posible
+        if (!success) {
+            for (const channel of shuffledChannels) {
+                const maxIncrease = 255 - baseColor[channel];
+                const maxDecrease = baseColor[channel];
+                
+                if (maxIncrease >= 10) {
+                    newColor[channel] = Math.min(255, baseColor[channel] + Math.max(10, maxIncrease));
+                    success = true;
+                    break;
+                } else if (maxDecrease >= 10) {
+                    newColor[channel] = Math.max(0, baseColor[channel] - Math.max(10, maxDecrease));
+                    success = true;
+                    break;
+                }
+            }
+        }
+        
+        // Última salvaguarda: si todo falla, fuerza un cambio drástico
+        if (!success || (newColor.r === baseColor.r && newColor.g === baseColor.g && newColor.b === baseColor.b)) {
+            // Modifica el primer canal que pueda cambiar
+            if (baseColor.r < 245) {
+                newColor.r = baseColor.r + 10;
+            } else if (baseColor.r > 10) {
+                newColor.r = baseColor.r - 10;
+            } else if (baseColor.g < 245) {
+                newColor.g = baseColor.g + 10;
+            } else if (baseColor.g > 10) {
+                newColor.g = baseColor.g - 10;
+            } else if (baseColor.b < 245) {
+                newColor.b = baseColor.b + 10;
+            } else {
+                newColor.b = baseColor.b - 10;
+            }
+        }
         
         return newColor;
     }
@@ -105,6 +154,15 @@ class ColorGame {
         // Genera el color base
         const baseColor = this.generateRandomColor();
         const differentColor = this.generateDifferentColor(baseColor, difficulty);
+        
+        // Debug: Verifica que los colores sean diferentes
+        console.log('Base:', this.colorToString(baseColor));
+        console.log('Different:', this.colorToString(differentColor));
+        console.log('Are they equal?', 
+            baseColor.r === differentColor.r && 
+            baseColor.g === differentColor.g && 
+            baseColor.b === differentColor.b
+        );
         
         // Elige aleatoriamente qué cuadrado será diferente
         const differentIndex = Math.floor(Math.random() * totalSquares);
@@ -156,9 +214,18 @@ class ColorGame {
         } else {
             // ¡Incorrecto!
             square.classList.add('wrong');
+            
+            // Encuentra y marca el cuadrado correcto
+            const allSquares = this.gridElement.querySelectorAll('.color-square');
+            allSquares.forEach(sq => {
+                if (sq.dataset.different === 'true') {
+                    sq.classList.add('reveal-correct');
+                }
+            });
+            
             setTimeout(() => {
                 this.gameOver();
-            }, 500);
+            }, 1500);
         }
     }
 

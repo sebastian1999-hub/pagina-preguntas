@@ -3,6 +3,8 @@ let gameMode = null; // 'local' o 'online'
 let isHost = false;
 let roomCode = null;
 let onlinePlayers = [];
+let myPlayerId = null;
+let syncInterval = null;
 let gridSize = 5;
 let numPlayers = 2;
 let currentPlayer = 0;
@@ -12,8 +14,32 @@ let flippedCards = [];
 let matchedPairs = 0;
 let canFlip = true;
 
-// Firebase configuration (usando una simple implementación simulada)
-let roomDatabase = {};
+// Funciones para manejar localStorage como base de datos
+function getRoomDatabase() {
+    const data = localStorage.getItem('memoryGameRooms');
+    return data ? JSON.parse(data) : {};
+}
+
+function saveRoomDatabase(database) {
+    localStorage.setItem('memoryGameRooms', JSON.stringify(database));
+}
+
+function getRoom(code) {
+    const db = getRoomDatabase();
+    return db[code] || null;
+}
+
+function saveRoom(code, roomData) {
+    const db = getRoomDatabase();
+    db[code] = roomData;
+    saveRoomDatabase(db);
+}
+
+function deleteRoom(code) {
+    const db = getRoomDatabase();
+    delete db[code];
+    saveRoomDatabase(db);
+}
 
 // Emojis para las cartas (suficientes iconos para cubrir cuadrícula 9x9)
 const emojis = [
@@ -41,6 +67,7 @@ const winnerInfo = document.getElementById('winnerInfo');
 const localModeBtn = document.getElementById('localModeBtn');
 const onlineModeBtn = document.getElementById('onlineModeBtn');
 const backToModeBtn = document.getElementById('backToModeBtn');
+const clearRoomsBtn = document.getElementById('clearRoomsBtn');
 
 // Elementos de sala online
 const createRoomBtn = document.getElementById('createRoomBtn');
@@ -82,6 +109,13 @@ backToModeBtn.addEventListener('click', () => {
     roomCodeDisplay.classList.add('hidden');
     joinStatus.textContent = '';
     joinStatus.className = 'join-status';
+});
+
+clearRoomsBtn.addEventListener('click', () => {
+    if (confirm('¿Seguro que quieres limpiar todas las salas?')) {
+        localStorage.removeItem('memoryGameRooms');
+        alert('Todas las salas han sido eliminadas');
+    }
 });
 
 createRoomBtn.addEventListener('click', createRoom);
@@ -214,10 +248,20 @@ function flipCard(cardElement, value, index) {
         return;
     }
     
+    // En modo online, verificar que sea el turno del jugador
+    if (gameMode === 'online' && myPlayerId !== currentPlayer) {
+        return;
+    }
+    
     // Voltear la carta
     cardElement.classList.add('flipped');
     cardElement.innerHTML = value;
     flippedCards.push({ element: cardElement, value: value, index: index });
+    
+    // Sincronizar en modo online
+    if (gameMode === 'online') {
+        syncGameState();
+    }
     
     // Si hay dos cartas volteadas, verificar si coinciden
     if (flippedCards.length === 2) {
@@ -242,6 +286,11 @@ function checkMatch() {
         updateScore();
         
         matchedPairs++;
+        
+        // Sincronizar en modo online
+        if (gameMode === 'online') {
+            syncGameState();
+        }
         
         // Verificar si el juego terminó
         if (matchedPairs === Math.floor((gridSize * gridSize) / 2)) {
@@ -271,6 +320,11 @@ function checkMatch() {
 function nextPlayer() {
     currentPlayer = (currentPlayer + 1) % numPlayers;
     updateTurn();
+    
+    // Sincronizar en modo online
+    if (gameMode === 'online') {
+        syncGameState();
+    }
 }
 
 // Actualizar el turno visual
@@ -332,14 +386,18 @@ function resetGame() {
     onlineStatus.classList.add('hidden');
     modePanel.classList.remove('hidden');
     
+    // Detener sincronización
+    stopGameSync();
+    
     // Limpiar sala online
     if (roomCode && isHost) {
-        delete roomDatabase[roomCode];
+        deleteRoom(roomCode);
     }
     roomCode = null;
     isHost = false;
     gameMode = null;
     onlinePlayers = [];
+    myPlayerId = null;
     
     // Limpiar campos
     joinRoomCodeInput.value = '';
@@ -391,14 +449,14 @@ function createRoom() {
     roomCode = generateRoomCode();
     isHost = true;
     
-    // Inicializar la sala en la "base de datos" simulada
-    if (!roomDatabase[roomCode]) {
-        roomDatabase[roomCode] = {
+    // Inicializar la sala en localStorage
+    if (!getRoom(roomCode)) {
+        saveRoom(roomCode, {
             host: 'Host',
             players: [{ id: 0, name: 'Host (Tú)', ready: true }],
             gameStarted: false,
             gameState: null
-        };
+        });
     }
     
     // Mostrar código de sala
@@ -424,12 +482,13 @@ function joinRoom() {
     }
     
     // Verificar si la sala existe
-    if (!roomDatabase[code]) {
+    const room = getRoom(code);
+    if (!room) {
         showJoinStatus('Sala no encontrada', 'error');
         return;
     }
     
-    if (roomDatabase[code].gameStarted) {
+    if (room.gameStarted) {
         showJoinStatus('La partida ya comenzó', 'error');
         return;
     }
@@ -438,12 +497,13 @@ function joinRoom() {
     roomCode = code;
     isHost = false;
     
-    const playerId = roomDatabase[code].players.length;
-    roomDatabase[code].players.push({
+    const playerId = room.players.length;
+    room.players.push({
         id: playerId,
         name: playerName,
         ready: true
     });
+    saveRoom(code, room);
     
     showJoinStatus('¡Te has unido a la sala!', 'success');
     
@@ -478,10 +538,11 @@ function showJoinStatus(message, type) {
 
 // Actualizar lista de jugadores en sala (host)
 function updatePlayersInRoom() {
-    if (!roomCode || !roomDatabase[roomCode]) return;
+    const room = getRoom(roomCode);
+    if (!roomCode || !room) return;
     
     playersInRoom.innerHTML = '';
-    roomDatabase[roomCode].players.forEach(player => {
+    room.players.forEach(player => {
         const playerDiv = document.createElement('div');
         playerDiv.className = 'player-item';
         playerDiv.textContent = player.name;
@@ -489,7 +550,7 @@ function updatePlayersInRoom() {
     });
     
     // Mostrar botón de iniciar si hay al menos 2 jugadores
-    if (roomDatabase[roomCode].players.length >= 2) {
+    if (room.players.length >= 2) {
         startOnlineGameBtn.classList.remove('hidden');
     }
 }
@@ -497,10 +558,11 @@ function updatePlayersInRoom() {
 // Actualizar lista de jugadores (invitado)
 function updatePlayersInRoomJoined() {
     const container = document.getElementById('playersInRoomJoined');
-    if (!container || !roomCode || !roomDatabase[roomCode]) return;
+    const room = getRoom(roomCode);
+    if (!container || !roomCode || !room) return;
     
     container.innerHTML = '';
-    roomDatabase[roomCode].players.forEach(player => {
+    room.players.forEach(player => {
         const playerDiv = document.createElement('div');
         playerDiv.className = 'player-item';
         playerDiv.textContent = player.name;
@@ -513,7 +575,8 @@ function checkRoomUpdates() {
     if (!isHost || !roomCode) return;
     
     const interval = setInterval(() => {
-        if (!roomCode || roomDatabase[roomCode].gameStarted) {
+        const room = getRoom(roomCode);
+        if (!roomCode || (room && room.gameStarted)) {
             clearInterval(interval);
             return;
         }
@@ -526,7 +589,8 @@ function checkRoomUpdatesAsGuest() {
     if (isHost || !roomCode) return;
     
     const interval = setInterval(() => {
-        if (!roomCode) {
+        const room = getRoom(roomCode);
+        if (!roomCode || !room) {
             clearInterval(interval);
             return;
         }
@@ -534,9 +598,9 @@ function checkRoomUpdatesAsGuest() {
         updatePlayersInRoomJoined();
         
         // Si el juego empezó, iniciar
-        if (roomDatabase[roomCode].gameStarted && roomDatabase[roomCode].gameState) {
+        if (room.gameStarted && room.gameState) {
             clearInterval(interval);
-            loadOnlineGame(roomDatabase[roomCode].gameState);
+            loadOnlineGame(room.gameState);
         }
     }, 1000);
 }
@@ -545,10 +609,13 @@ function checkRoomUpdatesAsGuest() {
 function startOnlineGame() {
     if (!isHost || !roomCode) return;
     
-    roomDatabase[roomCode].gameStarted = true;
+    const room = getRoom(roomCode);
+    if (!room) return;
+    
+    room.gameStarted = true;
     
     // Configurar jugadores desde la sala
-    players = roomDatabase[roomCode].players.map(p => ({
+    players = room.players.map(p => ({
         id: p.id,
         name: p.name,
         score: 0
@@ -567,7 +634,8 @@ function startOnlineGame() {
         cards: generateCardValues()
     };
     
-    roomDatabase[roomCode].gameState = gameState;
+    room.gameState = gameState;
+    saveRoom(roomCode, room);
     
     // Ocultar panel online y mostrar juego
     onlinePanel.classList.add('hidden');
@@ -605,6 +673,15 @@ function loadOnlineGame(gameState) {
     players = gameState.players;
     numPlayers = players.length;
     
+    // Establecer mi ID de jugador
+    if (isHost) {
+        myPlayerId = 0;
+    } else {
+        const room = getRoom(roomCode);
+        myPlayerId = room.players.findIndex(p => p.name === playerNameInput.value.trim() || 'Jugador');
+        if (myPlayerId === -1) myPlayerId = room.players.length - 1;
+    }
+    
     // Ocultar cualquier panel de espera
     const waitingPanels = document.querySelectorAll('.setup-panel');
     waitingPanels.forEach(panel => panel.classList.add('hidden'));
@@ -615,6 +692,9 @@ function loadOnlineGame(gameState) {
     createScoreBoard();
     createCardsFromValues(gameState.cards);
     updateTurn();
+    
+    // Iniciar sincronización
+    startGameSync();
 }
 
 // Crear cartas desde valores predefinidos
@@ -640,4 +720,118 @@ function createCardsFromValues(cardValues) {
             matched: false
         });
     });
+}
+
+
+// ==================== SINCRONIZACIÓN ONLINE ====================
+
+// Sincronizar el estado actual del juego
+function syncGameState() {
+    if (!roomCode || gameMode !== 'online') return;
+    
+    const room = getRoom(roomCode);
+    if (!room || !room.gameState) return;
+    
+    // Actualizar el estado del juego
+    room.gameState.currentPlayer = currentPlayer;
+    room.gameState.players = players;
+    room.gameState.matchedPairs = matchedPairs;
+    room.gameState.flippedCards = flippedCards.map(fc => fc.index);
+    room.gameState.matchedCards = cards.map(c => c.matched);
+    room.gameState.timestamp = Date.now();
+    
+    saveRoom(roomCode, room);
+}
+
+// Iniciar sincronización del juego
+function startGameSync() {
+    if (!roomCode || gameMode !== 'online') return;
+    
+    // Limpiar intervalo anterior si existe
+    if (syncInterval) clearInterval(syncInterval);
+    
+    // Sincronizar cada 500ms
+    syncInterval = setInterval(() => {
+        checkGameStateUpdates();
+    }, 500);
+}
+
+// Verificar actualizaciones del estado del juego
+function checkGameStateUpdates() {
+    if (!roomCode || gameMode !== 'online') return;
+    
+    const room = getRoom(roomCode);
+    if (!room || !room.gameState) return;
+    
+    const gameState = room.gameState;
+    
+    // Si no es mi turno, actualizar el tablero
+    if (gameState.currentPlayer !== myPlayerId) {
+        // Actualizar jugador actual
+        if (currentPlayer !== gameState.currentPlayer) {
+            currentPlayer = gameState.currentPlayer;
+            updateTurn();
+        }
+        
+        // Actualizar puntuaciones
+        gameState.players.forEach((player, index) => {
+            if (players[index].score !== player.score) {
+                players[index].score = player.score;
+                const playerDiv = document.getElementById(`player-${index}`);
+                if (playerDiv) {
+                    const scoreElement = playerDiv.querySelector('.score');
+                    if (scoreElement) scoreElement.textContent = player.score;
+                }
+            }
+        });
+        
+        // Actualizar pares emparejados
+        if (matchedPairs !== gameState.matchedPairs) {
+            matchedPairs = gameState.matchedPairs;
+        }
+        
+        // Actualizar cartas emparejadas
+        if (gameState.matchedCards) {
+            gameState.matchedCards.forEach((isMatched, index) => {
+                if (isMatched && cards[index] && !cards[index].matched) {
+                    cards[index].matched = true;
+                    cards[index].element.classList.add('matched');
+                }
+            });
+        }
+        
+        // Actualizar cartas volteadas
+        const currentFlippedIndices = flippedCards.map(fc => fc.index);
+        const newFlippedIndices = gameState.flippedCards || [];
+        
+        // Si hay cartas nuevas volteadas
+        if (JSON.stringify(currentFlippedIndices) !== JSON.stringify(newFlippedIndices)) {
+            // Limpiar cartas volteadas anteriores
+            flippedCards.forEach(fc => {
+                if (!fc.element.classList.contains('matched')) {
+                    fc.element.classList.remove('flipped');
+                    fc.element.innerHTML = '?';
+                }
+            });
+            flippedCards = [];
+            
+            // Voltear las nuevas cartas
+            newFlippedIndices.forEach(index => {
+                const card = cards[index];
+                if (card && !card.element.classList.contains('matched')) {
+                    card.element.classList.add('flipped');
+                    card.element.innerHTML = card.value;
+                    flippedCards.push(card);
+                }
+            });
+        }
+    }
+}
+
+// Detener sincronización
+function stopGameSync() {
+    if (syncInterval) {
+        clearInterval(syncInterval);
+        syncInterval = null;
+    }
 }
